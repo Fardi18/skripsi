@@ -6,6 +6,11 @@
     <section class="py-5">
         <div class="container">
             <div class="row mb-5">
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <div class="col-lg-6">
                     <!-- PRODUCT SLIDER-->
                     <div class="row m-sm-0">

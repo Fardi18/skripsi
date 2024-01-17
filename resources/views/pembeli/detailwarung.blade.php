@@ -68,6 +68,11 @@
                 </div>
             </div>
         </section>
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <section class="py-5">
             <div class="container p-0">
                 <div class="row">

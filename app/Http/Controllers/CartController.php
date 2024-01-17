@@ -41,6 +41,16 @@ class CartController extends Controller
         $product_id = $product->id;
         $user_id = Auth::user()->id;
         $warung_id = $product->warung_id;
+
+        // Check if there are items in the cart from a different store
+        $cartFromDifferentStore = Cart::where('user_id', $user_id)
+            ->whereHas('product', function ($query) use ($warung_id) {
+                $query->where('warung_id', '!=', $warung_id);
+            })->exists();
+
+        if ($cartFromDifferentStore) {
+            return redirect()->back()->with('error', 'Kamu hanya bisa menambahkan produk dari toko yang sama!');
+        }
         $existing_cart = Cart::where('product_id', $product_id)
             ->where('user_id', $user_id)
             ->first();
