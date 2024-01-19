@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,29 +12,29 @@ class CartController extends Controller
 {
     public function index(Product $product)
     {
-        $carts = Cart::where("user_id", Auth::user()->id)->with("product")->get();
+        $carts = Cart::where("user_id", Auth::user()->id)->with("product", "warung")->get();
 
-        // Buat array untuk menampung produk berdasarkan toko
-        $groupedProducts = [];
+        // // Buat array untuk menampung produk berdasarkan toko
+        // $groupedProducts = [];
 
-        // Loop melalui keranjang belanja
-        foreach ($carts as $cart) {
-            $warungName = $cart->product->warung->name;
+        // // Loop melalui keranjang belanja
+        // foreach ($carts as $cart) {
+        //     $warungName = $cart->product->warung->name;
 
-            // Jika toko belum ada di dalam array, tambahkan
-            if (!isset($groupedProducts[$warungName])) {
-                $groupedProducts[$warungName] = [
-                    'warung' => $cart->product->warung,
-                    'products' => [],
-                ];
-            }
+        //     // Jika toko belum ada di dalam array, tambahkan
+        //     if (!isset($groupedProducts[$warungName])) {
+        //         $groupedProducts[$warungName] = [
+        //             'warung' => $cart->product->warung,
+        //             'products' => [],
+        //         ];
+        //     }
 
-            // Tambahkan produk ke dalam toko yang sesuai
-            $groupedProducts[$warungName]['products'][] = $cart->product;
-        }
+        //     // Tambahkan produk ke dalam toko yang sesuai
+        //     $groupedProducts[$warungName]['products'][] = $cart->product;
+        // }
 
         // dd($groupedProducts);
-        return view("pembeli.cart.index", ["carts" => $carts, "groupedProducts" => $groupedProducts]);
+        return view("pembeli.cart.index", ["carts" => $carts]);
     }
 
     public function addToCart(Product $product, Request $request)
@@ -101,5 +102,13 @@ class CartController extends Controller
     {
         $cart->delete();
         return redirect('/cart');
+    }
+
+    public function checkoutPage()
+    {
+        $user_id = Auth::user()->id;
+        $user = User::with('province', 'regency')->findOrFail($user_id);
+        $carts = Cart::where("user_id", $user_id)->with("product")->get();
+        return view('pembeli.cart.checkout', ['user' => $user, 'carts' => $carts]);
     }
 }
