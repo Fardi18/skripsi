@@ -115,5 +115,6 @@ Route::get('/cart', [CartController::class, 'index'])->middleware('auth');
 Route::post('/cart/{product}', [CartController::class, 'addToCart'])->name('addToCart');
 Route::patch('/cart/{cart}', [CartController::class, 'update_cart'])->name('update_cart');
 Route::delete('/cart/{cart}', [CartController::class, 'delete_cart'])->name('delete_cart');
+Route::get('/checkoutpage', [CartController::class, 'checkoutPage']);
 // CHECKOUT
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout');
