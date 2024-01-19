@@ -2,7 +2,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="/admin/dashboard" class="logo d-flex align-items-center">
+        <a href="/penjual/dashboard" class="logo d-flex align-items-center">
             <img src="{{ asset('/warungdashboard') }}/assets/img/logo.png" alt="">
             <span class="d-none d-lg-block">Warko</span>
         </a>
@@ -30,12 +30,13 @@
                         <hr class="dropdown-divider">
                     </li>
 
-                    {{-- <li>
-                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="/penjual/profile/{{ Auth::user()->id }}">
                             <i class="bi bi-person"></i>
                             <span>My Profile</span>
                         </a>
-                    </li> --}}
+                    </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

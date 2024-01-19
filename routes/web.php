@@ -5,8 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\IndoRegionController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\PembeliController;
+use App\Http\Controllers\PenjualController;
 use App\Http\Controllers\PenjualTransactionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -61,7 +61,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 // PENJUAL
 Route::prefix('penjual')->middleware('auth:penjual')->group(function () {
-    Route::get('/dashboard', [PageController::class, 'warung']);
+    Route::get('/dashboard', [PenjualController::class, 'warung']);
     // WARUNG
     Route::get('/warung', [WarungController::class, 'index']);
     Route::get('/warung/add', [WarungController::class, 'create']);
@@ -91,6 +91,9 @@ Route::prefix('penjual')->middleware('auth:penjual')->group(function () {
     Route::get('/transaction/{transaction}', [PenjualTransactionController::class, 'show'])->name("detail-transaction");
     Route::get('/transaction/{id}/edit', [PenjualTransactionController::class, 'edit']);
     Route::put('/transaction/{id}', [PenjualTransactionController::class, 'update'])->name("update-transaction");
+    // PROFILE
+    Route::get("/profile/{id}", [PenjualController::class, "penjualProfile"]);
+    Route::put("/profile/{id}", [PenjualController::class, "penjualUpdate"]);
 });
 
 
@@ -105,6 +108,8 @@ Route::get('maps/{id}', [PembeliController::class, 'getRoute'])->name('cek-rute'
 // PROFILE
 Route::get('/profile/{id}', [ProfileController::class, 'profile']);
 Route::get('/profile/transaction/{transaction}', [ProfileController::class, 'detailTransaction']);
+Route::get('/profile/{id}/edit', [ProfileController::class, 'editProfile']);
+Route::put('/profile/{id}', [ProfileController::class, 'updateProfile']);
 // CART
 Route::get('/cart', [CartController::class, 'index'])->middleware('auth');
 Route::post('/cart/{product}', [CartController::class, 'addToCart'])->name('addToCart');
