@@ -199,39 +199,18 @@
                                         <td>{{ $profile->regency->name }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Alanat Lengkap</th>
+                                        <th>Alamat Lengkap</th>
                                         <td>{{ $profile->address }}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="card-footer tab-card-header">
-                        <h5 class="mb-3">Transaksi</h5>
-                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link" id="one-tab" data-toggle="tab" href="#one" role="tab"
-                                    aria-controls="One" aria-selected="true">All</a>
-                            </li>
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab"
-                                    aria-controls="Two" aria-selected="false">Success</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab"
-                                    aria-controls="Three" aria-selected="false">Pending</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="four-tab" data-toggle="tab" href="#four" role="tab"
-                                    aria-controls="Four" aria-selected="false">Cancelled</a>
-                            </li> --}}
-                        </ul>
-                    </div>
-
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
+                    <hr>
+                    <div>
+                        <div class="tab-pane fade show active p-3">
+                            <h5>Transaksi</h5>
                             @if ($profile->transactions->isNotEmpty())
-                                <h5 class="card-title">Semua Transaksi</h5>
                                 <p class="card-text">Daftar semua transaksi yang pernah kamu lakukan</p>
                                 @foreach ($profile->transactions as $transaction)
                                     <div class="my-3 p-4 rounded shadow">
@@ -240,7 +219,7 @@
                                                 <p class="fw-bold mb-0">{{ $transaction->code }}</p>
                                                 <p class="mb-0">{{ $transaction->created_at }}</p>
                                             </div>
-                                            <p class="mb-0 bg-secondary px-2 py-1 rounded badge">
+                                            <p class="mb-0 bg-dark px-2 py-1 rounded badge">
                                                 {{ $transaction->transaction_status }}</p>
                                         </div>
                                         <hr>
@@ -259,21 +238,6 @@
                                 <p class="text-center">Kamu belum memiliki transaksi</p>
                             @endif
                         </div>
-                        {{-- <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
-                            <h5 class="card-title">Transaksi Berhasil</h5>
-                            <p class="card-text">Daftar semua transaksi yang sukses</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                        <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
-                            <h5 class="card-title">Transaksi Menunggu</h5>
-                            <p class="card-text">Daftar transaksi menunggu pembayaran</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                        <div class="tab-pane fade p-3" id="four" role="tabpanel" aria-labelledby="four-tab">
-                            <h5 class="card-title">Transaksi Gagal</h5>
-                            <p class="card-text">Daftar semua transaksi yang gagal</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div> --}}
                     </div>
                 </div>
             </div>

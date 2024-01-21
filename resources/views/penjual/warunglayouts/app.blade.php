@@ -74,6 +74,7 @@
     <script src="{{ asset('v1/js/custom.min.js') }}"></script>
     <script src="{{ asset('v1/js/dlabnav-init.js') }}"></script>
     @stack('after-scripts')
+    @stack('javascript')
 
 </body>
 

@@ -23,36 +23,66 @@
                         <a type="button" class="btn btn-primary m-2" href="/penjual/product/add"><i
                                 class="bi bi-plus-square-fill"></i> Tambah Produk</a>
                         <!-- Table with stripped rows -->
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Kode Produk</th>
-                                    <th scope="col">Nama Produk</th>
-                                    <th scope="col">Gambar Produk</th>
-                                    <th scope="col">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($products as $product)
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
                                     <tr>
-                                        <th scope="row">{{ $loop->iteration }}</th>
-                                        <td>{{ $product->code }}</td>
-                                        <td>{{ $product->name }}</td>
-                                        <td><img src="{{ Storage::url($product->image) }}" alt=""
-                                                style="height:40px; width:60px; object-fit: cover;">
-                                        </td>
-                                        <td><a href="/penjual/product/{{ $product->id }}/edit" class="btn btn-warning"><i
-                                                    class="bi bi-pencil-fill text-white"></i></a>
-                                            | <a href="/penjual/product/{{ $product->id }}" class="btn btn-primary"><i
-                                                    class="bi bi-eye-fill text-white"></i></a>
-                                            | <a href="/penjual/product/{{ $product->id }}/delete"
-                                                class="btn btn-danger"><i class="bi bi-trash3-fill text-white"></i></a>
-                                        </td>
+                                        <th scope="col">Kode Produk</th>
+                                        <th scope="col">Gambar Produk</th>
+                                        <th scope="col">Nama Produk</th>
+                                        <th scope="col">Stok Produk</th>
+                                        <th scope="col">Aksi</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($products as $product)
+                                        @if ($product->stock <= 5)
+                                            <tr>
+                                                <td>{{ $product->code }}</td>
+                                                <td><img src="{{ Storage::url($product->image) }}" alt=""
+                                                        style="height:40px; width:60px; object-fit: cover;">
+                                                </td>
+                                                <td>{{ $product->name }}</td>
+                                                <td>
+                                                    <p class="text-danger fw-bold">{{ $product->stock }} (Tambah Stok
+                                                        Produk)
+                                                    </p>
+                                                </td>
+                                                <td><a href="/penjual/product/{{ $product->id }}/edit"
+                                                        class="btn btn-warning"><i
+                                                            class="bi bi-pencil-fill text-white"></i></a>
+                                                    | <a href="/penjual/product/{{ $product->id }}"
+                                                        class="btn btn-primary"><i
+                                                            class="bi bi-eye-fill text-white"></i></a>
+                                                    | <a href="/penjual/product/{{ $product->id }}/delete"
+                                                        class="btn btn-danger"><i
+                                                            class="bi bi-trash3-fill text-white"></i></a>
+                                                </td>
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td>{{ $product->code }}</td>
+                                                <td><img src="{{ Storage::url($product->image) }}" alt=""
+                                                        style="height:40px; width:60px; object-fit: cover;">
+                                                </td>
+                                                <td>{{ $product->name }}</td>
+                                                <td>{{ $product->stock }}</td>
+                                                <td><a href="/penjual/product/{{ $product->id }}/edit"
+                                                        class="btn btn-warning"><i
+                                                            class="bi bi-pencil-fill text-white"></i></a>
+                                                    | <a href="/penjual/product/{{ $product->id }}"
+                                                        class="btn btn-primary"><i
+                                                            class="bi bi-eye-fill text-white"></i></a>
+                                                    | <a href="/penjual/product/{{ $product->id }}/delete"
+                                                        class="btn btn-danger"><i
+                                                            class="bi bi-trash3-fill text-white"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                         <!-- End Table with stripped rows -->
 
                     </div>

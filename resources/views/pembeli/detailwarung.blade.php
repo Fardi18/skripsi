@@ -99,23 +99,32 @@
                                                                 </button>
                                                             </li>
                                                             <li class="list-inline-item me-0">
-                                                                <a class="btn btn-sm btn-outline-dark product-expand-btn"
+                                                                {{-- <a class="btn btn-sm btn-outline-dark product-expand-btn"
                                                                     href="#productView" data-bs-toggle="modal"
                                                                     data-product-id="{{ $product->id }}">
                                                                     <i class="fas fa-expand"></i>
+                                                                </a> --}}
+                                                                <a class="btn btn-sm btn-outline-dark product-expand-btn"
+                                                                    href="#productView{{ $product->id }}"
+                                                                    data-bs-toggle="modal"
+                                                                    data-product-id="{{ $product->id }}">
+                                                                    <i class="fas fa-expand"></i>
                                                                 </a>
+
                                                             </li>
                                                         </ul>
                                                     </form>
                                                 </div>
                                             </div>
-                                            <h6> <a class="reset-anchor"
-                                                    href="/product/{{ $product->id }}">{{ $product->name }}</a></h6>
+                                            <h6>
+                                                <a class="reset-anchor"
+                                                    href="/product/{{ $product->id }}">{{ $product->name }}</a>
+                                            </h6>
                                             <p class="small text-muted">Rp{{ number_format($product->price) }}</p>
                                         </div>
                                     </div>
                                     {{-- modal --}}
-                                    <div class="modal fade" id="productView" tabindex="-1">
+                                    <div class="modal fade" id="productView{{ $product->id }}" tabindex="-1">
                                         <div class="modal-dialog modal-lg modal-dialog-centered">
                                             <div class="modal-content overflow-hidden border-0">
                                                 <button
@@ -190,7 +199,7 @@
     </div>
 @endsection
 
-@push('javascript')
+{{-- @push('javascript')
     <script>
         $(document).ready(function() {
             $('#productView').on('show.bs.modal', function(event) {
@@ -220,6 +229,38 @@
                 $('#productView .modal-body p.text-sm').text(product.description);
 
                 // Update other modal content as needed
+            }
+        });
+    </script>
+@endpush --}}
+
+@push('javascript')
+    <script>
+        $(document).ready(function() {
+            $('.product-expand-btn').on('click', function(event) {
+                var productId = $(this).data('product-id');
+                fetchProductDetails(productId);
+            });
+
+            function fetchProductDetails(productId) {
+                // Sesuaikan AJAX request dengan ID modal yang sesuai
+                $.ajax({
+                    url: '/getProductDetails/' + productId,
+                    type: 'GET',
+                    success: function(data) {
+                        updateModalContent(data, productId);
+                    },
+                    error: function() {
+                        console.log('Error fetching product details');
+                    }
+                });
+            }
+
+            function updateModalContent(product, productId) {
+                // Gunakan class selector dan ID modal untuk memperbarui konten modal yang sesuai
+                $('#productView' + productId + ' .modal-body h2').text(product.name);
+                $('#productView' + productId + ' .modal-body p.text-muted').text('Rp' + product.price);
+                $('#productView' + productId + ' .modal-body p.text-sm').text(product.description);
             }
         });
     </script>
