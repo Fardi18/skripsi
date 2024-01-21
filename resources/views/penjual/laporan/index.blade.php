@@ -45,11 +45,17 @@
                                         <td>
                                             <button type="submit" class="btn btn-md btn-primary">Buat
                                                 Laporan</button>
+                                            <button id="downloadPdfBtn" class="btn btn-md btn-success" disabled>Unduh
+                                                Laporan
+                                                PDF</button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </form>
+
+
+
                         <!-- Table with stripped rows -->
                         <table class="table">
                             <thead>
@@ -105,11 +111,16 @@
                             $('table tbody.bodyLaporan').append(row);
 
                         });
+                        // Aktifkan tombol unduh PDF jika ada data
+                        $('#downloadPdfBtn').prop('disabled', false);
                     } else {
                         // Tampilkan pesan jika tidak ada data
                         var emptyRow =
                             '<tr><td colspan="5" class="text-center">Tidak ada data penjualan dalam rentang tanggal yang diminta</td></tr>';
                         $('table tbody.bodyLaporan').append(emptyRow);
+
+                        // Nonaktifkan tombol unduh PDF jika tidak ada data
+                        $('#downloadPdfBtn').prop('disabled', true);
                     }
                 },
                 error: function(xhr, status, error) {
@@ -123,6 +134,13 @@
                     alert(errorMessage);
                 }
             });
+        });
+    </script>
+
+    <script>
+        // Fungsi untuk menangani klik tombol unduh PDF
+        $('#downloadPdfBtn').click(function() {
+            window.location.href = '{{ route('laporan.exportPdf') }}?' + $('form').serialize();
         });
     </script>
 @endpush
