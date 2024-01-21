@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Warung;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -29,6 +30,7 @@ class LaporanController extends Controller
 
         $laporanPenjualan = Transaction::whereBetween('created_at', [$startDate, $endDate])
             ->whereIn('warung_id', [$warung_id])
+            ->where('transaction_status', 'lunas')
             ->with('warung')
             ->get();
 
@@ -39,10 +41,19 @@ class LaporanController extends Controller
 
         // Ubah format tanggal menggunakan Carbon
         $laporanPenjualan = $laporanPenjualan->map(function ($transaction) {
-            $transaction['formatted_created_at'] = Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY HH:mm:ss');
+            $transaction['formatted_created_at'] = Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY');
             return $transaction;
         });
 
         return response()->json($laporanPenjualan);
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $penjual_id = Auth::user()->id;
+        $warung = Warung::where('penjual_id', $penjual_id)->get();
+        $laporanPenjualan = $this->getData($request)->original;
+        $pdf = PDF::loadView('penjual.laporan.pdf', ['laporanPenjualan' => $laporanPenjualan, 'warungs' => $warung]);
+        return $pdf->download('laporan_penjualan.pdf');
     }
 }

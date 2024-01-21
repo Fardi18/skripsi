@@ -17,7 +17,9 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>Data Laporan Penjualan</h1>
+                @foreach ($warungs as $warung)
+                    <h3 class="text-center">Data Laporan Penjualan {{ $warung->name }}</h3>
+                @endforeach
             </div>
         </div>
         <div class="row">
@@ -25,13 +27,13 @@
                 @php
                     $total_price = 0; // Definisikan variabel total_price di sini
                 @endphp
-                <table class="table table-striped">
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>No.</th>
-                            <th>Kode Transaksi</th>
-                            <th>Tanggal</th>
-                            <th>Total</th>
+                            <th scope="col">No.</th>
+                            <th scope="col">Kode Transaksi</th>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Total</th>
                         </tr>
                     </thead>
                     <tbody>
