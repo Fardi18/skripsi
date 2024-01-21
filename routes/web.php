@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\IndoRegionController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PembeliController;
 use App\Http\Controllers\PenjualController;
 use App\Http\Controllers\PenjualTransactionController;
@@ -94,6 +95,9 @@ Route::prefix('penjual')->middleware('auth:penjual')->group(function () {
     // PROFILE
     Route::get("/profile/{id}", [PenjualController::class, "penjualProfile"]);
     Route::put("/profile/{id}", [PenjualController::class, "penjualUpdate"]);
+    // LAPORAN
+    Route::get('/laporan', [LaporanController::class, 'index']);
+    Route::get('/laporan/get-data', [LaporanController::class, 'getData'])->name('laporan.getData');
 });
 
 
@@ -118,3 +122,4 @@ Route::delete('/cart/{cart}', [CartController::class, 'delete_cart'])->name('del
 Route::get('/checkoutpage', [CartController::class, 'checkoutPage']);
 // CHECKOUT
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout');
+Route::get('/success', [CheckoutController::class, 'success']);
