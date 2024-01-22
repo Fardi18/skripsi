@@ -56,4 +56,40 @@ class LaporanController extends Controller
         $pdf = PDF::loadView('penjual.laporan.pdf', ['laporanPenjualan' => $laporanPenjualan, 'warungs' => $warung]);
         return $pdf->download('laporan_penjualan.pdf');
     }
+
+    public function showTopProducts()
+    {
+        $topProducts = $this->getTopProducts(); // Panggil fungsi getTopProducts()
+        return view('penjual.laporan.topproduct', compact('topProducts'));
+    }
+
+    public function getTopProducts()
+    {
+        $penjual_id = Auth::user()->id;
+        $warung_id = Warung::where('penjual_id', $penjual_id)->pluck('id')->first();
+
+        $topProducts = Transaction::where('warung_id', $warung_id)
+            ->where('transaction_status', 'lunas')
+            ->with(['detail_transactions.product'])
+            ->get()
+            ->flatMap(function ($transaction) {
+                return $transaction->detail_transactions;
+            })
+            ->groupBy('product_id')
+            ->map(function ($items) {
+                return [
+                    'product_id' => $items->first()->product_id,
+                    'product_name' => $items->first()->product->name,
+                    'total_quantity_sold' => $items->sum('qty'),
+                ];
+            })
+            ->sortByDesc('total_quantity_sold')
+            ->values();
+
+        if ($topProducts->isEmpty()) {
+            return ['message' => 'Tidak ada data penjualan produk dalam warung ini'];
+        }
+
+        return $topProducts;
+    }
 }

@@ -99,6 +99,8 @@ Route::prefix('penjual')->middleware('auth:penjual')->group(function () {
     Route::get('/laporan', [LaporanController::class, 'index']);
     Route::get('/laporan/get-data', [LaporanController::class, 'getData'])->name('laporan.getData');
     Route::get('/laporan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan.exportPdf');
+    Route::get('/laporan/topproduct', [LaporanController::class, 'showTopProducts']);
+    Route::get('/laporan/topproduct/data', [LaporanController::class, 'getTopProducts']);
 });
 
 

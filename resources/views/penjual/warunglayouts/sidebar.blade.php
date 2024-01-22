@@ -70,15 +70,18 @@
         </li><!-- End Components Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse"
-                href="/penjual/laporan">
-                <i class="bi bi-menu-button-wide"></i><span>Laporan Penjualan</span><i
-                    class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Laporan</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="/penjual/laporan">
-                        <i class="bi bi-circle-fill"></i><span>Laporan</span>
+                        <i class="bi bi-circle-fill"></i><span>Laporan Penjualan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/penjual/laporan/topproduct">
+                        <i class="bi bi-circle-fill"></i><span>Top Produk</span>
                     </a>
                 </li>
             </ul>

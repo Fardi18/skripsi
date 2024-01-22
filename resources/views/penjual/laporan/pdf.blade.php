@@ -11,6 +11,21 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title>Laporan Penjualan</title>
+
+    <style>
+        .styled-table {
+            border-collapse: collapse;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 100%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .styled-table tbody tr.active-row {
+            font-weight: bold;
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,7 +33,7 @@
         <div class="row">
             <div class="col">
                 @foreach ($warungs as $warung)
-                    <h3 class="text-center">Data Laporan Penjualan {{ $warung->name }}</h3>
+                    <h3 class="text-center mb-3">Data Laporan Penjualan {{ $warung->name }}</h3>
                 @endforeach
             </div>
         </div>
@@ -27,7 +42,7 @@
                 @php
                     $total_price = 0; // Definisikan variabel total_price di sini
                 @endphp
-                <table class="table">
+                <table class="styled-table">
                     <thead>
                         <tr>
                             <th scope="col">No.</th>
@@ -48,13 +63,12 @@
                                 <td>Rp{{ number_format($transaction->total_price) }}</td>
                             </tr>
                         @endforeach
+                        <tr class="active-row">
+                            <td colspan="3">Total </td>
+                            <td>Rp{{ number_format($total_price) }}</td>
+                        </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h3>Total : <span><b>Rp{{ number_format($total_price) }}</b></span></h3>
             </div>
         </div>
     </div>
