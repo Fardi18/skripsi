@@ -40,7 +40,7 @@
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>{{ $transaction->code }}</td>
                                         <td>{{ $transaction->user->name }}</td>
-                                        <td>Rp{{ number_format($transaction->total_price) }}</td>
+                                        <td>Rp{{ number_format($transaction->total_price - $transaction->pajak) }}</td>
                                         <td>{{ $transaction->created_at }}</td>
                                         <td>{{ $transaction->transaction_status }}</td>
                                         <td><a href="/penjual/transaction/{{ $transaction->id }}/edit"

@@ -3,17 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Penjual;
+use App\Models\Product;
+use App\Models\Transaction;
+use App\Models\Warung;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class PenjualController extends Controller
 {
-    public function warung()
+    public function dashboard()
     {
 
-        $penjual = Penjual::with('province')->where("id", Auth::user()->id)->get();
-        return view("penjual.dashboard");
+        // warung id
+        $penjual_id = Auth::id();
+        $warung_id = Warung::where("penjual_id", $penjual_id)->first()->id;
+        $total_products = Product::where("warung_id", $warung_id)->count();
+        $total_transactions = Transaction::where("warung_id", $warung_id)
+            ->where('transaction_status', 'lunas')
+            ->count();
+
+        // Menghitung total pendapatan setelah dikurangi pajak
+        $transactions = Transaction::where("warung_id", $warung_id)
+            ->where('transaction_status', 'lunas')
+            ->get();
+        $total_pendapatan = 0;
+        foreach ($transactions as $transaction) {
+            $total_pendapatan += $transaction->total_price - $transaction->pajak;
+        }
+
+        return view("penjual.dashboard", compact("total_products", "total_transactions", "total_pendapatan"));
     }
 
     public function penjualProfile()

@@ -21,14 +21,13 @@
                         <div class="card info-card portocategory-card">
                             <div class="card-body">
                                 <h5 class="card-title">Produk</h5>
-
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                                        style="color: #4154f1;  background: #f6f6fe;">
-                                        <i class="bi bi-menu-button-wide"></i>
+                                        style="color: #ff771d;  background: #ffecdf;">
+                                        <i class="bi bi-tags"></i>
                                     </div>
                                     <div class="ps-3">
-                                        {{-- <h6>{{ $porto_categories }}</h6> --}}
+                                        <h6>{{ $total_products }}</h6>
                                         <span class="text-muted small pt-2 ps-1">Product</span>
                                     </div>
                                 </div>
@@ -44,11 +43,11 @@
                                 <h5 class="card-title">Transaksi</h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                                        style="color: #2eca6a;  background: #e0f8e9;">
-                                        <i class="bi bi-pc-display-horizontal"></i>
+                                        style="color: #576cbf;  background: #dde8ff;">
+                                        <i class="bi bi-basket"></i>
                                     </div>
                                     <div class="ps-3">
-                                        {{-- <h6>{{ $portos }}</h6> --}}
+                                        <h6>{{ $total_transactions }}</h6>
                                         <span class="text-muted small pt-2 ps-1">Transaksi</span>
                                     </div>
                                 </div>
@@ -63,11 +62,11 @@
                                 <h5 class="card-title">Pendapatan</h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                                        style="color: #ff771d;  background: #ffecdf;">
-                                        <i class="bi bi-tags"></i>
+                                        style="color: #6C22A6;  background: #F3CCF3;">
+                                        <i class="bi bi-currency-dollar"></i>
                                     </div>
                                     <div class="ps-3">
-                                        {{-- <h6>{{ $blog_categories }}</h6> --}}
+                                        <h6>Rp{{ number_format($total_pendapatan) }}</h6>
                                         <span class="text-muted small pt-2 ps-1">Pendapatan</span>
                                     </div>
                                 </div>

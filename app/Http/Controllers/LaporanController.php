@@ -42,6 +42,8 @@ class LaporanController extends Controller
         // Ubah format tanggal menggunakan Carbon
         $laporanPenjualan = $laporanPenjualan->map(function ($transaction) {
             $transaction['formatted_created_at'] = Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY');
+            // Kurangi total_price dengan pajak
+            $transaction['total_price'] -= $transaction->pajak;
             return $transaction;
         });
 

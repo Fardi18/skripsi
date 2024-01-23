@@ -21,7 +21,6 @@
             box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
             width: 500px;
             background-color: white;
-            border-radius: 32px
         }
     </style>
 </head>
@@ -31,32 +30,33 @@
         <div class="register-box p-5 ">
             <div class="title mb-3">
                 <h3 class="text-center">Selamat Datang <span class="text-primary">Penjual</span></h3>
-                <p class="text-secondary text-center">Masukin data kamu dan dapatkan orderan pertama</p>
+                <p class="text-secondary text-center">Masukkan datamu dan dapatkan orderan pertama</p>
             </div>
             <form method="POST" action="{{ route('do.penjualregister') }}">
                 @csrf
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
+                    <label for="name" class="form-label">Nama</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                        id="name" aria-describedby="nameHelp">
+                        id="name" aria-describedby="nameHelp" required placeholder="Masukkan nama">
                     @error('name')
                         <div id="nameHelp" class="form-text">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
+                    <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                        id="email" aria-describedby="emailHelp">
+                        id="email" aria-describedby="emailHelp" required placeholder="Masukkan email">
                     @error('email')
                         <div id="emailHelp" class="form-text">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="mb-3">
-                    <label for="phone_number" class="form-label">Phone Number</label>
+                    <label for="phone_number" class="form-label">Telepon</label>
                     <input type="text" class="form-control @error('phone_number') is-invalid @enderror"
-                        name="phone_number" id="phone_number" aria-describedby="phone_numberHelp">
+                        name="phone_number" id="phone_number" aria-describedby="phone_numberHelp" required
+                        placeholder="Masukkan nomor telepon">
                     @error('phone_number')
                         <div id="phone_numberHelp" class="form-text">{{ $message }}</div>
                     @enderror
@@ -64,20 +64,20 @@
                 <div class="mb-3">
                     <label for="provinces" class="form-label">Provinsi</label>
                     <select class="form-select" aria-label="Default select example" name="provinces_id"
-                        id="provinces_id">
+                        id="provinces_id" required>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="provinces" class="form-label">Kabupaten Kota</label>
                     <select class="form-select" aria-label="Default select example" name="regencies_id"
-                        id="regencies_id">
+                        id="regencies_id" required>
                     </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="address" class="form-label">Alamat Lengkap</label>
                     <textarea type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address"
-                        aria-describedby="addressHelp"></textarea>
+                        aria-describedby="addressHelp" required placeholder="Masukkan alamat lengkap"></textarea>
                     @error('address')
                         <div id="addressHelp" class="form-text">{{ $message }}</div>
                     @enderror
@@ -86,25 +86,24 @@
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control @error('password') is-invalid @enderror" name="password"
-                        id="password">
+                        id="password" required placeholder="Masukkan password">
                     @error('password')
                         <div id="passwordHelp" class="form-text">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="mb-3">
-                    <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                    <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
                     <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
-                        name="password_confirmation" id="password_confirmation">
+                        name="password_confirmation" id="password_confirmation" required
+                        placeholder="Konfirmasi password">
                     @error('password_confirmation')
                         <div id="passwordConfirmationHelp" class="form-text">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="mb-3 mt-5 ">
-                    <button class="btn btn-primary w-100" style="border-radius: 20px"
-                        type="sub
-                    ">Register</button>
+                    <button class="btn btn-dark w-100" type="submit">Register</button>
                     <p class="mt-3 text-center">
                         Sudah punya akun?
                         <a href="{{ route('login') }}"><b>silakan login.</b></a>

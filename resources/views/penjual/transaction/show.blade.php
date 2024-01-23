@@ -40,8 +40,18 @@
                                     <td>{{ $transaction->user->address }}</td>
                                 </tr>
                                 <tr>
+                                    <th>Ongkir</th>
+                                    <td>Rp{{ number_format($transaction->ongkir) }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Jumlah</th>
+                                    <td>Rp{{ number_format($transaction->total_price - ($transaction->ongkir + $transaction->pajak)) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                <tr>
                                     <th>Total</th>
-                                    <td>Rp{{ number_format($transaction->total_price) }}</td>
+                                    <td>Rp{{ number_format($transaction->total_price - $transaction->pajak) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Tanggal</th>

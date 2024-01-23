@@ -36,7 +36,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($products as $product)
-                                        @if ($product->stock <= 5)
+                                        @if ($product->stock <= 10)
                                             <tr>
                                                 <td>{{ $product->code }}</td>
                                                 <td><img src="{{ Storage::url($product->image) }}" alt=""

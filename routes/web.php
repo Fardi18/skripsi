@@ -13,9 +13,15 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekeningController;
 use App\Http\Controllers\WarungController;
-use App\Models\Rekening;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use App\Models\User;
+use App\Models\Admin;
+use App\Models\Penjual;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +42,86 @@ Route::get('/pembeliregister', [AuthController::class, "pembeliregister"])->name
 Route::get('/penjualregister', [AuthController::class, "penjualregister"])->name('penjualregister');
 Route::post('/pembeliregister', [AuthController::class, "dopembeliregister"])->name('do.pembeliregister');
 Route::post('/penjualregister', [AuthController::class, "dopenjualregister"])->name('do.penjualregister');
+
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->middleware('guest')->name('password.request');
+
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+
+    $user = User::where('email', $request->email)->first();
+    $admin = Admin::where('email', $request->email)->first();
+    $penjual = Penjual::where('email', $request->email)->first();
+
+    if ($user) {
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+    } elseif ($penjual) {
+        $status = Password::broker('penjuals')->sendResetLink(
+            $request->only('email')
+        );
+    } else {
+        $status = Password::INVALID_USER;
+    }
+
+    return $status === Password::RESET_LINK_SENT
+        ? back()->with(['status' => __($status)])
+        : back()->withErrors(['email' => __($status)]);
+})->middleware('guest')->name('password.email');
+
+Route::get('/reset-password/{token}', function (string $token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+    $admin = Admin::where('email', $request->email)->first();
+    $penjual = Penjual::where('email', $request->email)->first();
+
+    if ($user) {
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+    } elseif ($penjual) {
+        $status = Password::broker('penjuals')->reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (Penjual $penjual, string $password) {
+                $penjual->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $penjual->save();
+
+                event(new PasswordReset($penjual));
+            }
+        );
+    } else {
+        $status = Password::INVALID_USER;
+    }
+
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('status', __($status))
+        : back()->withErrors(['email' => [__($status)]]);
+})->middleware('guest')->name('password.update');
+
+
 // IndoRegion
 Route::get('selectProvince', [IndoRegionController::class, 'province'])->name('provinsi.index');
 Route::get('selectRegency/{id}', [IndoRegionController::class, 'regency']);
@@ -62,7 +148,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 // PENJUAL
 Route::prefix('penjual')->middleware('auth:penjual')->group(function () {
-    Route::get('/dashboard', [PenjualController::class, 'warung']);
+    Route::get('/dashboard', [PenjualController::class, 'dashboard']);
     // WARUNG
     Route::get('/warung', [WarungController::class, 'index']);
     Route::get('/warung/add', [WarungController::class, 'create']);
