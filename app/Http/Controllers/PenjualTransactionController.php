@@ -42,12 +42,14 @@ class PenjualTransactionController extends Controller
         $transaction = Transaction::findOrfail($id);
         $validated = $request->validate([
             "shipping_status" => "required",
+            "nama_pengirim" => "string|required",
         ]);
 
         Transaction::where("id", $id)->update([
             "shipping_status" => $validated["shipping_status"],
+            "nama_pengirim" => $validated["nama_pengirim"],
         ]);
 
-        return redirect("/penjual/transaction");
+        return redirect("/penjual/transaction")->with('success', 'Transaksi berhasil diperbarui!');
     }
 }

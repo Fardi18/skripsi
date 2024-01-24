@@ -14,25 +14,34 @@ class PenjualController extends Controller
 {
     public function dashboard()
     {
+        // Mendapatkan penjual yang sedang login
+        $penjual = Auth::user();
 
-        // warung id
-        $penjual_id = Auth::id();
-        $warung_id = Warung::where("penjual_id", $penjual_id)->first()->id;
-        $total_products = Product::where("warung_id", $warung_id)->count();
-        $total_transactions = Transaction::where("warung_id", $warung_id)
-            ->where('transaction_status', 'lunas')
-            ->count();
+        // Memeriksa apakah penjual memiliki warung
+        if ($penjual->warung) {
+            // Jika memiliki warung, dapatkan warung_id
+            $warung_id = $penjual->warung->id;
+            $total_products = Product::where("warung_id", $warung_id)->count();
+            $total_transactions = Transaction::where("warung_id", $warung_id)
+                ->where('transaction_status', 'lunas')
+                ->count();
 
-        // Menghitung total pendapatan setelah dikurangi pajak
-        $transactions = Transaction::where("warung_id", $warung_id)
-            ->where('transaction_status', 'lunas')
-            ->get();
-        $total_pendapatan = 0;
-        foreach ($transactions as $transaction) {
-            $total_pendapatan += $transaction->total_price - $transaction->pajak;
+            // Menghitung total pendapatan setelah dikurangi pajak
+            $transactions = Transaction::where("warung_id", $warung_id)
+                ->where('transaction_status', 'lunas')
+                ->get();
+            $total_pendapatan = 0;
+            foreach ($transactions as $transaction) {
+                $total_pendapatan += $transaction->total - $transaction->pajak;
+            }
+
+            return view("penjual.dashboard", compact("total_products", "total_transactions", "total_pendapatan"));
+        } else {
+            $total_products = 0;
+            $total_transactions = 0;
+            $total_pendapatan = 0;
+            return view("penjual.dashboard", compact("total_products", "total_transactions", "total_pendapatan"));
         }
-
-        return view("penjual.dashboard", compact("total_products", "total_transactions", "total_pendapatan"));
     }
 
     public function penjualProfile()

@@ -21,6 +21,16 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Data Warung</h5>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                         @if ($warungs->isEmpty())
                             <a type="button" class="btn btn-primary m-2" href="/penjual/warung/add"><i
                                     class="bi bi-plus-square-fill"></i> Tambah Warung</a>

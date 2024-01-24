@@ -35,31 +35,6 @@ class ProfileController extends Controller
         return view("pembeli.profile.edit", compact("user"));
     }
 
-    // public function updatedetailuser(Request $request, $id)
-    // {
-    //     // mendapatkan data user
-    //     $dataUser['users'] = User::findOrFail($id);
-
-    //     $validated = $request->validate([
-    //         'name' => ['string', 'max:100'],
-    //         'email' => ['string', 'max:100', 'email', 'unique:' . User::class],
-    //         'password' => ['confirmed', Rules\Password::defaults()],
-    //         'phone_number' => ['string'],
-    //         'address' => ['string', 'max:65535'],
-    //     ]);
-
-
-    //     // update data pada database berdasarkan id
-    //     User::where('id', $id)->update([
-    //         'name' => $validated['name'],
-    //         'email' => $validated['email'],
-    //         'phone_number' => $validated['phone_number'],
-    //         'address' => $validated['address'],
-    //     ]);
-
-    //     return redirect()->back()->with('success', 'Profile Berhasil Diubah!');
-    // }
-
     public function updateProfile(Request $request, $id)
     {
         // Mendapatkan data user

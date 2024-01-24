@@ -21,6 +21,16 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Data Transaksi</h5>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
@@ -40,7 +50,7 @@
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>{{ $transaction->code }}</td>
                                         <td>{{ $transaction->user->name }}</td>
-                                        <td>Rp{{ number_format($transaction->total_price - $transaction->pajak) }}</td>
+                                        <td>Rp{{ number_format($transaction->total - $transaction->pajak) }}</td>
                                         <td>{{ $transaction->created_at }}</td>
                                         <td>{{ $transaction->transaction_status }}</td>
                                         <td><a href="/penjual/transaction/{{ $transaction->id }}/edit"

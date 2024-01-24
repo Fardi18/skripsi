@@ -34,18 +34,28 @@ class CheckoutController extends Controller
             foreach ($carts as $cart) {
                 $warung_id = $cart->warung_id;
             }
-            // $warung_id = $request->input('warung_id');
+
+            // Transaction Create
+            $total_price = 0; // Inisialisasi variabel $total_price
+            foreach ($carts as $cart) {
+                $total_price += $cart->product->price * $cart->qty; // Menghitung total_price
+            }
+
+            $pajak = $total_price * 0.02; // Menghitung pajak (2% dari total_price)
+            $ongkir = 2000; // Ongkir senilai 2000
+            $total = $total_price + $pajak + $ongkir; // Menghitung total
 
             // Transaction Create
             $transaction = Transaction::create([
                 'user_id' => Auth::user()->id,
                 'warung_id' => $warung_id,
                 'code' => $code,
-                'total_price' => $request->total_price,
+                'total_price' => $total_price,
                 'transaction_status' => 'Pending',
                 'shipping_status' => 'Pending',
-                'ongkir' => 2000,
-                'pajak' => $request->total_price * 0.02,
+                'ongkir' => $ongkir,
+                'pajak' => $pajak,
+                'total' => $total,
             ]);
 
             // Detail Transaction Create
@@ -84,14 +94,11 @@ class CheckoutController extends Controller
             Config::$isSanitized = config('services.midtrans.isSanitized');
             Config::$is3ds = config('services.midtrans.is3ds');
 
-            // $transaction->total_price = $transaction->total_price + $transaction->pajak + $transaction->ongkir;
-            // $transaction->save();
-
             // Buat array untuk dikirim ke Midtrans
             $midtrans = [
                 'transaction_details' => [
                     'order_id' => $transaction->id,
-                    'gross_amount' => $transaction->total_price,
+                    'gross_amount' => $transaction->total,
                 ],
                 // 'item_details' => $itemDetails,
                 'customer_details' => [
@@ -106,15 +113,11 @@ class CheckoutController extends Controller
                 'vtweb' => []
             ];
 
-            // dd($midtrans);
-
             // Get Snap Payment Page URL
             $paymentUrl = Snap::createTransaction($midtrans)->redirect_url;
 
             // Commit the transaction and decrement stock only if it was successful
             DB::commit();
-            // dd($paymentUrl);
-
 
             // Redirect to Snap Payment Page
             return redirect($paymentUrl);

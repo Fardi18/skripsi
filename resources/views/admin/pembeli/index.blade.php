@@ -25,8 +25,9 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    {{-- <th scope="col">#</th> --}}
+                                    <th scope="col">#</th>
                                     <th scope="col">Nama</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Phone Number</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
@@ -34,18 +35,14 @@
                             <tbody>
                                 @foreach ($pembelis as $pembeli)
                                     <tr>
-                                        {{-- <th scope="row">{{ $loop->iteration }}</th> --}}
+                                        <th scope="row">{{ $loop->iteration }}</th>
                                         <td>{{ $pembeli->name }}</td>
+                                        <td>{{ $pembeli->email }}</td>
                                         <td>{{ $pembeli->phone_number }}</td>
                                         <td>
-                                            {{-- <a href="/admin/penjual/{{ $penjual->id }}/edit" class="btn btn-warning"><i
-                                                    class="bi bi-pencil-fill text-white"></i></a> --}}
-                                            |
                                             <a href="/admin/pembeli/{{ $pembeli->id }}" class="btn btn-primary"><i
                                                     class="bi bi-eye-fill text-white"></i></a>
-                                            |
-                                            {{-- <a href="/admin/penjual/{{ $penjual->id }}/delete" class="btn btn-danger"><i
-                                                    class="bi bi-trash3-fill text-white"></i></a> --}}
+
                                         </td>
                                     </tr>
                                 @endforeach

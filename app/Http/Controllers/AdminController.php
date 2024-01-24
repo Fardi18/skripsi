@@ -109,7 +109,7 @@ class AdminController extends Controller
             'image' => $newImage['image']
         ]);
 
-        return redirect('admin/warung');
+        return redirect('admin/warung')->with('success', 'Warung berhasil diperbarui!');
     }
 
     // TRANSACTION

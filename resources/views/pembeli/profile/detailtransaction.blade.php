@@ -182,21 +182,22 @@
                             <div class="row">
                                 <h5>Informasi Transaksi</h5>
                                 <div class="col-lg-6 mt-3">
+                                    <h6 class="mb-3">Informasi Transaksi</h6>
+                                    <p class="mb-1">{{ $transaction->warung->name }}</p>
+                                    <p class="mb-1">Pembayaran {{ $transaction->transaction_status }}</p>
+                                    <p class="mb-1">Pengiriman {{ $transaction->shipping_status }}</p>
+                                    <p class="mb-1">Nama Pengirim {{ $transaction->nama_pengirim }}</p>
+                                    <p class="mb-1">Biaya Admin Rp{{ number_format($transaction->pajak) }}</p>
+                                    <p class="mb-1">Ongkir Rp{{ number_format($transaction->ongkir) }}</p>
+                                    <p class="mb-1">Total Rp{{ number_format($transaction->total) }}</p>
+                                </div>
+                                <div class="col-lg-6 mt-3">
                                     <h6 class="mb-3">Informasi Pembeli</h6>
                                     <p class="mb-1">{{ $transaction->user->name }}</p>
                                     <p class="mb-1">{{ $transaction->user->email }}</p>
                                     <p class="mb-1">{{ $transaction->user->phone_number }}</p>
                                     <p class="mb-1">{{ $transaction->user->address }}
                                     </p>
-                                </div>
-                                <div class="col-lg-6 mt-3">
-                                    <h6 class="mb-3">Informasi Transaksi</h6>
-                                    <p class="mb-1">{{ $transaction->warung->name }}</p>
-                                    <p class="mb-1">Pembayaran {{ $transaction->transaction_status }}</p>
-                                    <p class="mb-1">Pengiriman {{ $transaction->shipping_status }}</p>
-                                    <p class="mb-1">Biaya Admin Rp{{ number_format($transaction->pajak) }}</p>
-                                    <p class="mb-1">Ongkir Rp{{ number_format($transaction->ongkir) }}</p>
-                                    <p class="mb-1">Total Rp{{ number_format($transaction->total_price) }}</p>
                                 </div>
                             </div>
                         </div>

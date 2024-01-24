@@ -9,23 +9,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
     <!-- gLightbox gallery-->
-    <link rel="stylesheet" href="{{ secure_asset('/pembelitemplate') }}/vendor/glightbox/css/glightbox.min.css">
+    <link rel="stylesheet" href="{{ asset('/pembelitemplate') }}/vendor/glightbox/css/glightbox.min.css">
     <!-- Range slider-->
-    <link rel="stylesheet" href="{{ secure_asset('/pembelitemplate') }}/vendor/nouislider/nouislider.min.css">
+    <link rel="stylesheet" href="{{ asset('/pembelitemplate') }}/vendor/nouislider/nouislider.min.css">
     <!-- Choices CSS-->
     <link rel="stylesheet"
-        href="{{ secure_asset('/pembelitemplate') }}/vendor/choices.js/public/assets/styles/choices.min.css">
+        href="{{ asset('/pembelitemplate') }}/vendor/choices.js/public/assets/styles/choices.min.css">
     <!-- Swiper slider-->
-    <link rel="stylesheet" href="{{ secure_asset('/pembelitemplate') }}/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{{ asset('/pembelitemplate') }}/vendor/swiper/swiper-bundle.min.css">
     <!-- Google fonts-->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;700&amp;display=swap">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;800&amp;display=swap">
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="{{ secure_asset('/pembelitemplate') }}/css/style.default.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="{{ asset('/pembelitemplate') }}/css/style.default.css" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="{{ secure_asset('/pembelitemplate') }}/css/custom.css">
+    <link rel="stylesheet" href="{{ asset('/pembelitemplate') }}/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.png">
     {{-- Font awesome --}}
@@ -112,12 +112,12 @@
 
         @include('pembeli.layouts.footer')
         <!-- JavaScript files-->
-        <script src="{{ secure_asset('/pembelitemplate') }}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="{{ secure_asset('/pembelitemplate') }}/vendor/glightbox/js/glightbox.min.js"></script>
-        <script src="{{ secure_asset('/pembelitemplate') }}/vendor/nouislider/nouislider.min.js"></script>
-        <script src="{{ secure_asset('/pembelitemplate') }}/vendor/swiper/swiper-bundle.min.js"></script>
-        <script src="{{ secure_asset('/pembelitemplate') }}/vendor/choices.js/public/assets/scripts/choices.min.js"></script>
-        <script src="{{ secure_asset('/pembelitemplate') }}/js/front.js"></script>
+        <script src="{{ asset('/pembelitemplate') }}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('/pembelitemplate') }}/vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="{{ asset('/pembelitemplate') }}/vendor/nouislider/nouislider.min.js"></script>
+        <script src="{{ asset('/pembelitemplate') }}/vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="{{ asset('/pembelitemplate') }}/vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+        <script src="{{ asset('/pembelitemplate') }}/js/front.js"></script>
         <script>
             // ------------------------------------------------------- //
             //   Inject SVG Sprite - 

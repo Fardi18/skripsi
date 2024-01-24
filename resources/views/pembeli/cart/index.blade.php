@@ -24,6 +24,17 @@
         </section>
         <section class="py-5">
             <h2 class="h4 text-uppercase mb-4">Shopping cart</h2>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-8 mb-4 mb-lg-0">
                     <!-- CART TABLE-->

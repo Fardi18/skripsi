@@ -41,7 +41,7 @@
                                         <td>{{ $transaction->code }}</td>
                                         <td>{{ $transaction->user->name }}</td>
                                         <td>{{ $transaction->warung->name }}</td>
-                                        <td>Rp{{ number_format($transaction->total_price) }}</td>
+                                        <td>Rp{{ number_format($transaction->total) }}</td>
                                         <td>{{ $transaction->created_at }}</td>
                                         <td><a href="{{ route('detail.transaction', $transaction) }}"
                                                 class="btn btn-primary"><i class="bi bi-eye-fill text-white"></i></a>

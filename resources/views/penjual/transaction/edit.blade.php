@@ -27,20 +27,31 @@
                             @method('put')
                             @csrf
                             <div class="row mb-3">
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label" for="shipping_status">Status Pengiriman</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example"
-                                            name="shipping_status">
-                                            <option selected>{{ $transaction->shipping_status }}</option>
-                                            <option value="{{ $transaction->shipping_status }}">-- Pilih Status Pengiriman
-                                                --</option>
-                                            <option value="{{ $transaction->shipping_status }}">Pending</option>
-                                            <option value="Disiapkan">Disiapkan</option>
-                                            <option value="Dikirim">Dikirim</option>
-                                        </select>
-                                    </div>
+                                <label class="col-sm-2 col-form-label" for="shipping_status">Status Pengiriman</label>
+                                <div class="col-sm-10">
+                                    <select class="form-select" aria-label="Default select example" name="shipping_status">
+                                        <option selected>{{ $transaction->shipping_status }}</option>
+                                        <option value="{{ $transaction->shipping_status }}">-- Pilih Status Pengiriman
+                                            --</option>
+                                        <option value="{{ $transaction->shipping_status }}">Pending</option>
+                                        <option value="Disiapkan">Disiapkan</option>
+                                        <option value="Dikirim">Dikirim</option>
+                                        <option value="Selesai">Selesai</option>
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="nama_pengirim" class="col-sm-2 col-form-label">Nama Pengirim</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control @error('nama_pengirim') is-invalid @enderror"
+                                        name="nama_pengirim" required placeholder="Masukkan nama pengirim pesanan"
+                                        value="{{ $transaction->nama_pengirim }}">
+                                </div>
+                                @error('nama_pengirim')
+                                    <div class="invalid-feedback">
+                                        Nama tidak boleh kosong
+                                    </div>
+                                @enderror
                             </div>
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Submit Button</label>

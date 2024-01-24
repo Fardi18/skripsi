@@ -20,6 +20,16 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Data Produk</h5>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                         <a type="button" class="btn btn-primary m-2" href="/penjual/product/add"><i
                                 class="bi bi-plus-square-fill"></i> Tambah Produk</a>
                         <!-- Table with stripped rows -->

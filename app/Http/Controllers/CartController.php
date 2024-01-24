@@ -13,27 +13,6 @@ class CartController extends Controller
     public function index(Product $product)
     {
         $carts = Cart::where("user_id", Auth::user()->id)->with("product", "warung")->get();
-
-        // // Buat array untuk menampung produk berdasarkan toko
-        // $groupedProducts = [];
-
-        // // Loop melalui keranjang belanja
-        // foreach ($carts as $cart) {
-        //     $warungName = $cart->product->warung->name;
-
-        //     // Jika toko belum ada di dalam array, tambahkan
-        //     if (!isset($groupedProducts[$warungName])) {
-        //         $groupedProducts[$warungName] = [
-        //             'warung' => $cart->product->warung,
-        //             'products' => [],
-        //         ];
-        //     }
-
-        //     // Tambahkan produk ke dalam toko yang sesuai
-        //     $groupedProducts[$warungName]['products'][] = $cart->product;
-        // }
-
-        // dd($groupedProducts);
         return view("pembeli.cart.index", ["carts" => $carts]);
     }
 
@@ -70,6 +49,9 @@ class CartController extends Controller
                 'user_id' => $user_id,
                 'qty' => $request->qty
             ]);
+
+            // Set success message
+            return redirect('/cart')->with('success', 'Produk berhasil ditambahkan ke keranjang!');
         } else {
             // validasi agar kuantitas pada cart tidak melebihi stock produk
             $request->validate([
@@ -79,9 +61,10 @@ class CartController extends Controller
             $existing_cart->update([
                 'qty' => $existing_cart->qty + $request->qty
             ]);
-        }
 
-        return redirect('/cart');
+            // Set success message
+            return redirect('/cart')->with('success', 'Produk berhasil diperbarui di keranjang!');
+        }
     }
 
     public function update_cart(Cart $cart, Request $request)
@@ -95,13 +78,13 @@ class CartController extends Controller
             'qty' => $request->qty
         ]);
 
-        return redirect('/cart');
+        return redirect('/cart')->with('success', 'Produk berhasil diperbarui di keranjang!');
     }
 
     public function delete_cart(Cart $cart)
     {
         $cart->delete();
-        return redirect('/cart');
+        return redirect('/cart')->with('success', 'Produk berhasil dihapus dari keranjang!');
     }
 
     public function checkoutPage()

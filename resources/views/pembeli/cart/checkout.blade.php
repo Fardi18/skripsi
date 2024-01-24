@@ -29,6 +29,9 @@
             @php
                 $total_price = 0;
             @endphp
+            @php
+                $total = 0;
+            @endphp
             <div class="row">
                 <div class="col-lg-8 mb-5">
                     <form action="#">
@@ -64,71 +67,6 @@
                                 <label class="form-label text-sm text-uppercase" for="address">Alamat</label>
                                 <textarea class="form-control form-control-lg" type="text" id="address" disabled>{{ Auth::user()->address }}</textarea>
                             </div>
-                            <div class="collapse" id="alternateAddress">
-                                <div class="row gy-3">
-                                    <div class="col-12 mt-4">
-                                        <h2 class="h4 text-uppercase mb-4">Alternative billing details</h2>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label class="form-label text-sm text-uppercase" for="firstName2">First name
-                                        </label>
-                                        <input class="form-control form-control-lg" type="text" id="firstName2"
-                                            placeholder="Enter your first name">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label class="form-label text-sm text-uppercase" for="lastName2">Last name
-                                        </label>
-                                        <input class="form-control form-control-lg" type="text" id="lastName2"
-                                            placeholder="Enter your last name">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label class="form-label text-sm text-uppercase" for="email2">Email address
-                                        </label>
-                                        <input class="form-control form-control-lg" type="email" id="email2"
-                                            placeholder="e.g. Jason@example.com">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label class="form-label text-sm text-uppercase" for="phone2">Phone number
-                                        </label>
-                                        <input class="form-control form-control-lg" type="tel" id="phone2"
-                                            placeholder="e.g. +02 245354745">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label class="form-label text-sm text-uppercase" for="company2">Company name
-                                            (optional) </label>
-                                        <input class="form-control form-control-lg" type="text" id="company2"
-                                            placeholder="Your company name">
-                                    </div>
-                                    <div class="col-lg-6 form-group">
-                                        <label class="form-label text-sm text-uppercase" for="countryAlt">Country</label>
-                                        <select class="country" id="countryAlt"
-                                            data-customclass="form-control form-control-lg rounded-0">
-                                            <option value>Choose your country</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <label class="form-label text-sm text-uppercase" for="address2">Address line 1
-                                        </label>
-                                        <input class="form-control form-control-lg" type="text" id="address2"
-                                            placeholder="House number and street name">
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <label class="form-label text-sm text-uppercase" for="addressalt2">Address line 2
-                                        </label>
-                                        <input class="form-control form-control-lg" type="text" id="addressalt2"
-                                            placeholder="Apartment, Suite, Unit, etc (optional)">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label class="form-label text-sm text-uppercase" for="city2">Town/City </label>
-                                        <input class="form-control form-control-lg" type="text" id="city2">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label class="form-label text-sm text-uppercase" for="state2">State/County
-                                        </label>
-                                        <input class="form-control form-control-lg" type="text" id="state2">
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -161,23 +99,24 @@
                                 </li>
                                 <li class="border-bottom my-2"></li>
                                 <li class="d-flex align-items-center justify-content-between"><strong
-                                        class="small fw-bold">Ongkir</strong><span class="text-muted small">Rp2000</span>
+                                        class="small fw-bold">Ongkir</strong><span class="text-muted small">Rp2,000</span>
                                 </li>
                                 <li class="border-bottom my-2"></li>
                                 @php
                                     $ongkir = 2000;
                                     $pajak = $total_price * 0.02;
-                                    $total_price += $pajak + $ongkir;
+                                    $total += $pajak + $ongkir + $total_price;
                                 @endphp
                                 <li class="d-flex align-items-center justify-content-between"><strong
-                                        class="text-uppercase small fw-bold">Total</strong><span>Rp{{ number_format($total_price) }}</span>
+                                        class="text-uppercase small fw-bold">Total</strong><span>Rp{{ number_format($total) }}</span>
                                 </li>
                             </ul>
                         </div>
                         <div class="mt-5 px-2">
                             <form action="{{ route('checkout') }}" method="post" class="">
                                 @csrf
-                                <input type="hidden" name="total_price" value="{{ $total_price }}">
+                                {{-- <input type="hidden" name="total" value="{{ $total }}">
+                                <input type="hidden" name="total_price" value="{{ $total_price }}"> --}}
                                 <div class="col-lg-12 form-group">
                                     <button class="btn btn-dark" type="submit" style="width: 100%;">Pesan
                                         Sekarang</button>

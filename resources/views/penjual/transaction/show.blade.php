@@ -45,13 +45,13 @@
                                 </tr>
                                 <tr>
                                     <th>Jumlah</th>
-                                    <td>Rp{{ number_format($transaction->total_price - ($transaction->ongkir + $transaction->pajak)) }}
+                                    <td>Rp{{ number_format($transaction->total_price) }}
                                     </td>
                                 </tr>
                                 <tr>
                                 <tr>
                                     <th>Total</th>
-                                    <td>Rp{{ number_format($transaction->total_price - $transaction->pajak) }}</td>
+                                    <td>Rp{{ number_format($transaction->total - $transaction->pajak) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Tanggal</th>

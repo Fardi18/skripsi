@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col">
                 @php
-                    $total_price = 0; // Definisikan variabel total_price di sini
+                    $total = 0; // Definisikan variabel total di sini
                 @endphp
                 <table class="styled-table">
                     <thead>
@@ -54,18 +54,18 @@
                     <tbody>
                         @foreach ($laporanPenjualan as $index => $transaction)
                             @php
-                                $total_price += $transaction->total_price;
+                                $total += $transaction->total;
                             @endphp
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $transaction->code }}</td>
                                 <td>{{ $transaction->formatted_created_at }}</td>
-                                <td>Rp{{ number_format($transaction->total_price) }}</td>
+                                <td>Rp{{ number_format($transaction->total) }}</td>
                             </tr>
                         @endforeach
                         <tr class="active-row">
                             <td colspan="3">Total </td>
-                            <td>Rp{{ number_format($total_price) }}</td>
+                            <td>Rp{{ number_format($total) }}</td>
                         </tr>
                     </tbody>
                 </table>

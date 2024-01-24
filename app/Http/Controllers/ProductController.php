@@ -67,7 +67,7 @@ class ProductController extends Controller
             'warung_id' => $warung_id,
         ]);
 
-        return redirect('/penjual/product');
+        return redirect('/penjual/product')->with('success', 'Produk berhasil ditambakan!');
     }
 
     /**
@@ -126,7 +126,7 @@ class ProductController extends Controller
             'image' => $newImage['image']
         ]);
 
-        return redirect('/penjual/product');
+        return redirect('/penjual/product')->with('success', 'Produk berhasil diperbarui!');
     }
 
     /**
@@ -135,6 +135,6 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         Product::destroy($id);
-        return redirect('/penjual/product');
+        return redirect('/penjual/product')->with('success', 'Produk berhasil dihapus!');
     }
 }

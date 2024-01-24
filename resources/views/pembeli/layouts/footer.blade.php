@@ -4,17 +4,17 @@
             <div class="col-md-4 mb-3 mb-md-0">
                 <h6 class="text-uppercase mb-3">Menus</h6>
                 <ul class="list-unstyled mb-0">
-                    <li><a class="footer-link" href="#!">Home</a></li>
-                    <li><a class="footer-link" href="#!">Warung</a></li>
-                    <li><a class="footer-link" href="#!">Maps</a></li>
+                    <li><a class="footer-link" href="/">Home</a></li>
+                    <li><a class="footer-link" href="/warung">Warung</a></li>
+                    <li><a class="footer-link" href="maps">Maps</a></li>
                 </ul>
             </div>
             <div class="col-md-4 mb-3 mb-md-0">
                 <h6 class="text-uppercase mb-3">Account</h6>
                 <ul class="list-unstyled mb-0">
-                    <li><a class="footer-link" href="#!">Sign Up</a></li>
-                    <li><a class="footer-link" href="#!">Sign In</a></li>
-                    <li><a class="footer-link" href="#!">Logout</a></li>
+                    <li><a class="footer-link" href="/login">Sign Up</a></li>
+                    <li><a class="footer-link" href="/login">Sign In</a></li>
+                    <li><a class="footer-link" href="/logout">Logout</a></li>
                 </ul>
             </div>
             <div class="col-md-4">

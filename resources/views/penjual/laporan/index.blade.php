@@ -105,7 +105,7 @@
                                 '<td>' + transaction.id + '</td>' +
                                 '<td>' + transaction.code + '</td>' +
                                 '<td>' + transaction.formatted_created_at + '</td>' +
-                                '<td>' + 'Rp' + transaction.total_price + '</td>' +
+                                '<td>' + 'Rp' + transaction.total + '</td>' +
                                 '</tr>';
 
                             $('table tbody.bodyLaporan').append(row);

@@ -18,6 +18,8 @@ class Transaction extends Model
         'shipping_status',
         'ongkir',
         'pajak',
+        'total',
+        'nama_pengirim'
     ];
 
     public static function mapMidtransStatus($midtransStatus)

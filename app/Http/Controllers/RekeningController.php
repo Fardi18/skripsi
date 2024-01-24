@@ -47,7 +47,7 @@ class RekeningController extends Controller
             "penjual_id" => $penjual_id
         ]);
 
-        return redirect('penjual/rekening');
+        return redirect('penjual/rekening')->with('success', 'Rekening berhasil ditambahkan!');;
     }
 
     /**
@@ -88,7 +88,7 @@ class RekeningController extends Controller
             "penjual_id" => $penjual_id
         ]);
 
-        return redirect("/penjual/rekening");
+        return redirect("/penjual/rekening")->with('success', 'Rekening berhasil diperbarui!');;
     }
 
     /**
@@ -97,6 +97,6 @@ class RekeningController extends Controller
     public function destroy(string $id)
     {
         Rekening::destroy($id);
-        return redirect('/penjual/rekening');
+        return redirect('/penjual/rekening')->with('success', 'Rekening berhasil dihapus!');
     }
 }

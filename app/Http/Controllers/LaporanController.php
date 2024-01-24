@@ -42,8 +42,8 @@ class LaporanController extends Controller
         // Ubah format tanggal menggunakan Carbon
         $laporanPenjualan = $laporanPenjualan->map(function ($transaction) {
             $transaction['formatted_created_at'] = Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY');
-            // Kurangi total_price dengan pajak
-            $transaction['total_price'] -= $transaction->pajak;
+            // Kurangi total dengan pajak
+            $transaction['total'] -= $transaction->pajak;
             return $transaction;
         });
 
@@ -89,7 +89,7 @@ class LaporanController extends Controller
             ->values();
 
         if ($topProducts->isEmpty()) {
-            return ['message' => 'Tidak ada data penjualan produk dalam warung ini'];
+            return collect([]); // Mengembalikan koleksi kosong jika tidak ada data
         }
 
         return $topProducts;

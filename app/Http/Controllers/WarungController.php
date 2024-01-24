@@ -61,7 +61,7 @@ class WarungController extends Controller
             'penjual_id' => $penjual_id,
         ]);
 
-        return redirect('/penjual/warung');
+        return redirect('/penjual/warung')->with('success', 'Warung berhasil ditambahkan!');
     }
 
     /**
@@ -122,7 +122,7 @@ class WarungController extends Controller
             'image' => $newImage['image']
         ]);
 
-        return redirect('/penjual/warung');
+        return redirect('/penjual/warung')->with('success', 'Warung berhasil diperbarui!');
     }
 
     /**
@@ -131,6 +131,6 @@ class WarungController extends Controller
     public function destroy(string $id)
     {
         Warung::destroy($id);
-        return redirect('/penjual/warung');
+        return redirect('/penjual/warung')->with('success', 'Warung berhasil dihapus!');
     }
 }

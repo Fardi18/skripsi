@@ -24,10 +24,6 @@
                         <table class="table mb-5">
                             <tbody>
                                 <tr>
-                                    <th>Total</th>
-                                    <td>Rp{{ number_format($transaction->total_price) }}</td>
-                                </tr>
-                                <tr>
                                     <th>Tanggal</th>
                                     <td>{{ $transaction->created_at }}</td>
                                 </tr>
@@ -38,6 +34,26 @@
                                 <tr>
                                     <th>Status Pengiriman</th>
                                     <td>{{ $transaction->shipping_status }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nama Pengirim</th>
+                                    <td>{{ $transaction->nama_pengirim }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ongkir</th>
+                                    <td>Rp{{ number_format($transaction->ongkir) }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Pajak</th>
+                                    <td>Rp{{ number_format($transaction->pajak) }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total Belanja</th>
+                                    <td>Rp{{ number_format($transaction->total_price) }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total Keseluruhan</th>
+                                    <td>Rp{{ number_format($transaction->total) }}</td>
                                 </tr>
                             </tbody>
                         </table>

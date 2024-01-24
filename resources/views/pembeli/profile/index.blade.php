@@ -226,7 +226,7 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
                                                 <p class="mb-0 meta">Total Belanja:</p>
-                                                <p class="fw-bold mb-0">Rp{{ number_format($transaction->total_price) }}
+                                                <p class="fw-bold mb-0">Rp{{ number_format($transaction->total) }}
                                                 </p>
                                             </div>
                                             <a href="/profile/transaction/{{ $transaction->id }}"

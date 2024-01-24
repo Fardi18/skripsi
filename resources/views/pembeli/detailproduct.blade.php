@@ -42,7 +42,7 @@
                                         <span class="small text-uppercase text-gray mr-4 no-select">Quantity</span>
                                         <div class="quantity">
                                             <input class="form-control form-control-sm border-0 shadow-0 p-0" type="number"
-                                                name="qty" value="{{ request()->qty }}" id="quantity-input" />
+                                                name="qty" value="1" id="quantity-input" />
                                         </div>
                                     </div>
                                 </div>
