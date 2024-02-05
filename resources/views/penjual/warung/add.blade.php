@@ -49,10 +49,18 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
-
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Tambah Warung</h5>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <!-- General Form Elements -->
                         <form action="/penjual/warung" method="POST" enctype="multipart/form-data">
@@ -61,18 +69,19 @@
                                 <label for="name" class="col-sm-2 col-form-label">Nama Warung</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name">
+                                        name="name" placeholder="Masukkan nama warung" required>
                                 </div>
                                 @error('name')
                                     <div class="invalid-feedback">
-                                        Nama tidak boleh kosong
+                                        Nama warung terlalu panjang
                                     </div>
                                 @enderror
                             </div>
                             <div class="row mb-3">
                                 <label for="description" class="col-sm-2 col-form-label">Deskripsi Warung</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control @error('description') is-invalid @enderror" style="height: 100px" name="description"></textarea>
+                                    <textarea class="form-control @error('description') is-invalid @enderror" style="height: 100px" name="description"
+                                        placeholder="Masukkan deskripsi warung" required></textarea>
                                 </div>
                                 @error('description')
                                     <div class="invalid-feedback">
@@ -84,7 +93,7 @@
                                 <label for="address" class="col-sm-2 col-form-label">Alamat Warung</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                        name="address">
+                                        name="address" placeholder="Masukkan alamat warung" required>
                                 </div>
                                 @error('address')
                                     <div class="invalid-feedback">
@@ -98,7 +107,7 @@
                                 <div class="col-sm-10">
                                     <div class="input-group">
                                         <input type="text" class="form-control @error('location') is-invalid @enderror"
-                                            name="location" id="location">
+                                            name="location" id="location" placeholder="Masukkan data lokasi" required>
                                         <button class="btn btn-success" type="button" onclick="addMarker();">Cek</button>
                                     </div>
                                 </div>
@@ -118,7 +127,7 @@
                                 <label for="image" class="col-sm-2 col-form-label">Gambar Warung</label>
                                 <div class="col-sm-10">
                                     <input class="form-control @error('image') is-invalid @enderror" type="file"
-                                        name="image">
+                                        name="image" required>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -183,6 +192,15 @@
         L.control.fullscreen({
             position: 'bottomright'
         }).addTo(map);
+
+        var lc = L.control
+            .locate({
+                position: 'bottomright',
+                strings: {
+                    title: "Show me where I am, yo!"
+                }
+            })
+            .addTo(map);
 
 
         // set overlayer yang ingin digunakan

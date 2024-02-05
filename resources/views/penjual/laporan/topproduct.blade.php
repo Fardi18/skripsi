@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="pagetitle">
-        <h1>Data Warung</h1>
+        <h1>Data Top Produk</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/penjual/dashboard">Dashboard</a></li>

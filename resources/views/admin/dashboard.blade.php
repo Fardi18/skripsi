@@ -59,6 +59,25 @@
                     <div class="col-xxl-4 col-xl-6">
                         <div class="card info-card blogcategory-card">
                             <div class="card-body">
+                                <h5 class="card-title">Warung</h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                                        style="color: #f8cf02;  background: #fffede;">
+                                        <i class="bi bi-shop"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ $warungs }}</h6>
+                                        <span class="text-muted small pt-2 ps-1">Warung</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customers Card -->
+                    <div class="col-xxl-4 col-xl-6">
+                        <div class="card info-card blogcategory-card">
+                            <div class="card-body">
                                 <h5 class="card-title">Produk</h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"

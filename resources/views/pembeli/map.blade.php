@@ -264,7 +264,7 @@
                     })
                     .bindPopup(
                         "<div class='my-2'><img src='{{ Storage::url($item->image) }}' class='img-fluid' width='700px'></div>" +
-                        "<div class='my-2'><strong>Nama Spot:</strong> <br>{{ $item->name }}</div>" +
+                        "<div class='my-2'><strong>Nama Warung:</strong> <br>{{ $item->name }}</div>" +
 
                         "<div class='my-2'><a href='{{ route('cek-rute', $item->id) }}' class='btn btn-outline-primary btn-sm'>Lihat Rute</a> <a href='/warung/{{ $item->id }}' class='btn btn-outline-success btn-sm'>Detail Warung</a></div>" +
                         "<div class='my-2'></div>"

@@ -4,12 +4,12 @@
 
 @section('content')
     <div class="pagetitle">
-        <h1>Data Warung</h1>
+        <h1>Laporan Penjualan</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/penjual/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="/penjual/laporan">Laporan Penjualan</a></li>
-                <li class="breadcrumb-item active">Data Produk</li>
+                <li class="breadcrumb-item active">Laporan Penjualan</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -60,9 +60,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">ID Transaksi</th>
-                                    <th scope="col">Kode Transaksi</th>
+                                    <th scope="col">No.</th>
                                     <th scope="col">Tanggal</th>
                                     <th scope="col">Total</th>
                                 </tr>
@@ -86,6 +84,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script>
+        // $('form').submit(function(event) {
+        //     event.preventDefault();
+
+        //     $.ajax({
+        //         url: '{{ route('laporan.getData') }}',
+        //         type: 'GET',
+        //         data: $('form').serialize(),
+        //         success: function(response) {
+        //             // Hapus data lama dari tabel
+        //             $('table tbody.bodyLaporan').empty();
+
+        //             // Iterasi melalui data dan tambahkan ke tabel
+        //             if (response.length > 0) {
+        //                 $.each(response, function(index, transaction) {
+        //                     var row = '<tr>' +
+        //                         '<td>' + (index + 1) + '</td>' +
+        //                         '<td>' + transaction.id + '</td>' +
+        //                         '<td>' + transaction.code + '</td>' +
+        //                         '<td>' + transaction.formatted_created_at + '</td>' +
+        //                         '<td>' + 'Rp' + transaction.total + '</td>' +
+        //                         '</tr>';
+
+        //                     $('table tbody.bodyLaporan').append(row);
+
+        //                 });
+        //                 // Aktifkan tombol unduh PDF jika ada data
+        //                 $('#downloadPdfBtn').prop('disabled', false);
+        //             } else {
+        //                 // Tampilkan pesan jika tidak ada data
+        //                 var emptyRow =
+        //                     '<tr><td colspan="5" class="text-center">Tidak ada data penjualan dalam rentang tanggal yang diminta</td></tr>';
+        //                 $('table tbody.bodyLaporan').append(emptyRow);
+
+        //                 // Nonaktifkan tombol unduh PDF jika tidak ada data
+        //                 $('#downloadPdfBtn').prop('disabled', true);
+        //             }
+        //         },
+        //         error: function(xhr, status, error) {
+        //             var errorMessage = 'Terjadi kesalahan. Silakan coba lagi.';
+
+        //             // Jika terdapat pesan kesalahan dalam respons server, gunakan pesan tersebut
+        //             if (xhr.responseJSON && xhr.responseJSON.error) {
+        //                 errorMessage = xhr.responseJSON.error;
+        //             }
+
+        //             alert(errorMessage);
+        //         }
+        //     });
+        // });
         $('form').submit(function(event) {
             event.preventDefault();
 
@@ -99,24 +146,21 @@
 
                     // Iterasi melalui data dan tambahkan ke tabel
                     if (response.length > 0) {
-                        $.each(response, function(index, transaction) {
+                        $.each(response, function(index, data) {
                             var row = '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
-                                '<td>' + transaction.id + '</td>' +
-                                '<td>' + transaction.code + '</td>' +
-                                '<td>' + transaction.formatted_created_at + '</td>' +
-                                '<td>' + 'Rp' + transaction.total + '</td>' +
+                                '<td>' + data.date + '</td>' +
+                                '<td>' + 'Rp' + data.total + '</td>' +
                                 '</tr>';
 
                             $('table tbody.bodyLaporan').append(row);
-
                         });
                         // Aktifkan tombol unduh PDF jika ada data
                         $('#downloadPdfBtn').prop('disabled', false);
                     } else {
                         // Tampilkan pesan jika tidak ada data
                         var emptyRow =
-                            '<tr><td colspan="5" class="text-center">Tidak ada data penjualan dalam rentang tanggal yang diminta</td></tr>';
+                            '<tr><td colspan="3" class="text-center">Tidak ada data penjualan dalam rentang tanggal yang diminta</td></tr>';
                         $('table tbody.bodyLaporan').append(emptyRow);
 
                         // Nonaktifkan tombol unduh PDF jika tidak ada data

@@ -46,25 +46,34 @@
                     <thead>
                         <tr>
                             <th scope="col">No.</th>
-                            <th scope="col">Kode Transaksi</th>
                             <th scope="col">Tanggal</th>
                             <th scope="col">Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($laporanPenjualan as $index => $transaction)
+                        {{-- @foreach ($laporanPenjualan as $index => $transaction)
                             @php
                                 $total += $transaction->total;
                             @endphp
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $transaction->code }}</td>
                                 <td>{{ $transaction->formatted_created_at }}</td>
                                 <td>Rp{{ number_format($transaction->total) }}</td>
                             </tr>
+                        @endforeach --}}
+                        @foreach ($laporanPenjualan as $index => $data)
+                            @php
+                                $total += $data['total'];
+                            @endphp
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $data['date'] }}</td>
+                                <td>Rp{{ number_format($data['total']) }}</td>
+                            </tr>
                         @endforeach
+
                         <tr class="active-row">
-                            <td colspan="3">Total </td>
+                            <td colspan="2">Total </td>
                             <td>Rp{{ number_format($total) }}</td>
                         </tr>
                     </tbody>

@@ -36,11 +36,11 @@
 
 @section('content')
     <div class="pagetitle">
-        <h1>Tambah Warung</h1>
+        <h1>Edit Warung</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/penjual/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="/penjual/warung">Warung</a></li>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/warung">Warung</a></li>
                 <li class="breadcrumb-item active">Edit Warung</li>
             </ol>
         </nav>
@@ -53,7 +53,11 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Edit Warung</h5>
-
+                        @if ($errors->has('error'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('error') }}
+                            </div>
+                        @endif
                         <!-- General Form Elements -->
                         <form action="/admin/warung/{{ $warung->id }}" method="POST" enctype="multipart/form-data">
                             @method('put')
@@ -161,7 +165,7 @@
 
         var map = L.map('map', {
             center: [-6.294378850889657, 106.58268750184644],
-            zoom: 10,
+            zoom: 18,
             layers: [streets]
         });
 
@@ -170,6 +174,19 @@
             "Streets": streets,
             "Streets2": street1,
         };
+
+        L.control.fullscreen({
+            position: 'bottomright'
+        }).addTo(map);
+
+        var lc = L.control
+            .locate({
+                position: 'bottomright',
+                strings: {
+                    title: "Show me where I am, yo!"
+                }
+            })
+            .addTo(map);
 
         // var overlays = {
         //     "Streets2": streets

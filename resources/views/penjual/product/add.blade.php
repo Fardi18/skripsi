@@ -21,7 +21,11 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Tambah Produk</h5>
-
+                        @if ($errors->has('error'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('error') }}
+                            </div>
+                        @endif
                         <!-- General Form Elements -->
                         <form action="/penjual/product" method="POST" enctype="multipart/form-data">
                             @csrf

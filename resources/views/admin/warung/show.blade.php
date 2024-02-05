@@ -107,10 +107,8 @@
                                                 style="height:40px; width:60px; object-fit: cover;">
                                         </td>
                                         <td>
-                                            |
                                             <a href="/admin/warung/product/{{ $product->id }}" class="btn btn-primary"><i
                                                     class="bi bi-eye-fill text-white"></i></a>
-                                            |
                                         </td>
                                     </tr>
                                 @endforeach

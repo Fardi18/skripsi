@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rekening;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,14 +41,19 @@ class RekeningController extends Controller
             "bank_number" => "required|string",
         ]);
 
-        Rekening::create([
-            "name" => $validated["name"],
-            "bank_name" => $validated["bank_name"],
-            "bank_number" => $validated["bank_number"],
-            "penjual_id" => $penjual_id
-        ]);
+        try {
+            Rekening::create([
+                "name" => $validated["name"],
+                "bank_name" => $validated["bank_name"],
+                "bank_number" => $validated["bank_number"],
+                "penjual_id" => $penjual_id
+            ]);
 
-        return redirect('penjual/rekening')->with('success', 'Rekening berhasil ditambahkan!');;
+            return redirect('penjual/rekening')->with('success', 'Rekening berhasil ditambahkan!');
+        } catch (Exception $e) {
+            // Tangani error dan tampilkan pesan kesalahan pada halaman yang sama
+            return back()->withInput()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Periksa kembali data yang dimasukkan']);
+        }
     }
 
     /**
@@ -81,14 +87,19 @@ class RekeningController extends Controller
             'bank_number' => 'string',
         ]);
 
-        Rekening::where('id', $id)->update([
-            'name' => $validated['name'],
-            'bank_name' => $validated['bank_name'],
-            'bank_number' => $validated['bank_number'],
-            "penjual_id" => $penjual_id
-        ]);
+        try {
+            Rekening::where('id', $id)->update([
+                'name' => $validated['name'],
+                'bank_name' => $validated['bank_name'],
+                'bank_number' => $validated['bank_number'],
+                "penjual_id" => $penjual_id
+            ]);
 
-        return redirect("/penjual/rekening")->with('success', 'Rekening berhasil diperbarui!');;
+            return redirect("/penjual/rekening")->with('success', 'Rekening berhasil diperbarui!');
+        } catch (Exception $e) {
+            // Tangani error dan tampilkan pesan kesalahan pada halaman yang sama
+            return back()->withInput()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui data. Periksa kembali data yang dimasukkan']);
+        }
     }
 
     /**

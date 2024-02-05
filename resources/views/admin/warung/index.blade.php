@@ -21,6 +21,16 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Data Warung</h5>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>

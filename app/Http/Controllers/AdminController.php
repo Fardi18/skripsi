@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Warung;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +19,8 @@ class AdminController extends Controller
         $penjuals = Penjual::count();
         $transactions = Transaction::count();
         $products = Product::count();
-        return view("admin.dashboard", compact("users", "penjuals", "transactions", "products"));
+        $warungs = Warung::count();
+        return view("admin.dashboard", compact("users", "penjuals", "transactions", "products", "warungs"));
     }
 
     // PENJUAL
@@ -100,16 +102,21 @@ class AdminController extends Controller
         $penjual_id = $warung->penjual->id;
 
         // Update data di database
-        Warung::where('id', $id)->update([
-            "name" => $validated["name"],
-            "location" => $validated["location"],
-            "description" => $validated["description"],
-            "address" => $validated["address"],
-            "penjual_id" => $penjual_id,
-            'image' => $newImage['image']
-        ]);
+        try {
+            Warung::where('id', $id)->update([
+                "name" => $validated["name"],
+                "location" => $validated["location"],
+                "description" => $validated["description"],
+                "address" => $validated["address"],
+                "penjual_id" => $penjual_id,
+                'image' => $newImage['image']
+            ]);
 
-        return redirect('admin/warung')->with('success', 'Warung berhasil diperbarui!');
+            return redirect('admin/warung')->with('success', 'Warung berhasil diperbarui!');
+        } catch (Exception $e) {
+            // Tangani error dan tampilkan pesan kesalahan pada halaman yang sama
+            return back()->withInput()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Periksa kembali data yang dimasukkan.']);
+        }
     }
 
     // TRANSACTION

@@ -6,7 +6,7 @@
                 <ul class="list-unstyled mb-0">
                     <li><a class="footer-link" href="/">Home</a></li>
                     <li><a class="footer-link" href="/warung">Warung</a></li>
-                    <li><a class="footer-link" href="maps">Maps</a></li>
+                    <li><a class="footer-link" href="/maps">Maps</a></li>
                 </ul>
             </div>
             <div class="col-md-4 mb-3 mb-md-0">

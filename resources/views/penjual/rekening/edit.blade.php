@@ -17,11 +17,14 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
-
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Edit Rekening</h5>
-
+                        @if ($errors->has('error'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('error') }}
+                            </div>
+                        @endif
                         <!-- General Form Elements -->
                         <form action="/penjual/rekening/{{ $rekening->id }}" method="POST" enctype="multipart/form-data">
                             @method('put')

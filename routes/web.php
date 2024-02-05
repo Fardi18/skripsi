@@ -198,17 +198,20 @@ Route::get('/warung', [PembeliController::class, 'warung']);
 Route::get('/warung/{id}', [PembeliController::class, 'detailWarung']);
 Route::get('/maps', [PembeliController::class, 'maps']);
 Route::get('maps/{id}', [PembeliController::class, 'getRoute'])->name('cek-rute');
-// PROFILE
-Route::get('/profile/{id}', [ProfileController::class, 'profile']);
-Route::get('/profile/transaction/{transaction}', [ProfileController::class, 'detailTransaction']);
-Route::get('/profile/{id}/edit', [ProfileController::class, 'editProfile']);
-Route::put('/profile/{id}', [ProfileController::class, 'updateProfile']);
-// CART
-Route::get('/cart', [CartController::class, 'index'])->middleware('auth');
-Route::post('/cart/{product}', [CartController::class, 'addToCart'])->name('addToCart');
-Route::patch('/cart/{cart}', [CartController::class, 'update_cart'])->name('update_cart');
-Route::delete('/cart/{cart}', [CartController::class, 'delete_cart'])->name('delete_cart');
-Route::get('/checkoutpage', [CartController::class, 'checkoutPage']);
-// CHECKOUT
-Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout');
-Route::get('/success', [CheckoutController::class, 'success']);
+
+Route::middleware('auth:web')->group(function () {
+    // PROFILE
+    Route::get('/profile/{id}', [ProfileController::class, 'profile']);
+    Route::get('/profile/transaction/{transaction}', [ProfileController::class, 'detailTransaction']);
+    Route::get('/profile/{id}/edit', [ProfileController::class, 'editProfile']);
+    Route::put('/profile/{id}', [ProfileController::class, 'updateProfile']);
+    // CART
+    Route::get('/cart', [CartController::class, 'index'])->middleware('auth');
+    Route::post('/cart/{product}', [CartController::class, 'addToCart'])->name('addToCart');
+    Route::patch('/cart/{cart}', [CartController::class, 'update_cart'])->name('update_cart');
+    Route::delete('/cart/{cart}', [CartController::class, 'delete_cart'])->name('delete_cart');
+    Route::get('/checkoutpage', [CartController::class, 'checkoutPage']);
+    // CHECKOUT
+    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout');
+    Route::get('/success', [CheckoutController::class, 'success']);
+});

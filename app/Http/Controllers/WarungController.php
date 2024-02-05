@@ -34,11 +34,40 @@ class WarungController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     // validasi form
+    //     $validated = $request->validate([
+    //         "name" => "required|string",
+    //         "location" => "string",
+    //         "description" => "required|string|max:65535",
+    //         "address" => "required|string",
+    //         "image" => "required|mimes:jpg,jpeg,png|max:5120",
+    //     ]);
+
+    //     // menyimpan file image ke dalam storage
+    //     $saveImage['image'] = Storage::putFile('public/image', $request->file('image'));
+
+    //     // mengambil id penjual
+    //     $penjual_id = Auth::id();
+
+    //     // menyimpan data warung
+    //     Warung::create([
+    //         'name' => $validated['name'],
+    //         'location' => $validated['location'],
+    //         'description' => $validated['description'],
+    //         'address' => $validated['address'],
+    //         'image' => $saveImage['image'],
+    //         'penjual_id' => $penjual_id,
+    //     ]);
+
+    //     return redirect('/penjual/warung')->with('success', 'Warung berhasil ditambahkan!');
+    // }
     public function store(Request $request)
     {
         // validasi form
         $validated = $request->validate([
-            "name" => "required|string",
+            "name" => "required|string|max:255",
             "location" => "string",
             "description" => "required|string|max:65535",
             "address" => "required|string",
@@ -51,18 +80,24 @@ class WarungController extends Controller
         // mengambil id penjual
         $penjual_id = Auth::id();
 
-        // menyimpan data warung
-        Warung::create([
-            'name' => $validated['name'],
-            'location' => $validated['location'],
-            'description' => $validated['description'],
-            'address' => $validated['address'],
-            'image' => $saveImage['image'],
-            'penjual_id' => $penjual_id,
-        ]);
+        try {
+            // mencoba menyimpan data warung
+            Warung::create([
+                'name' => $validated['name'],
+                'location' => $validated['location'],
+                'description' => $validated['description'],
+                'address' => $validated['address'],
+                'image' => $saveImage['image'],
+                'penjual_id' => $penjual_id,
+            ]);
 
-        return redirect('/penjual/warung')->with('success', 'Warung berhasil ditambahkan!');
+            return redirect('/penjual/warung')->with('success', 'Warung berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            // Tangani error dan tampilkan pesan kesalahan pada halaman yang sama
+            return back()->withInput()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Periksa kembali data yang dimasukkan.']);
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -90,7 +125,7 @@ class WarungController extends Controller
         $warung = Warung::findOrFail($id);
 
         $validated = $request->validate([
-            'name' => 'string',
+            'name' => 'string|max:255',
             'location' => 'string',
             'description' => 'string|max:65535',
             'address' => 'string',
@@ -113,16 +148,21 @@ class WarungController extends Controller
         $penjual_id = Auth::id();
 
         // Update data di database
-        Warung::where('id', $id)->update([
-            "name" => $validated["name"],
-            "location" => $validated["location"],
-            "description" => $validated["description"],
-            "address" => $validated["address"],
-            "penjual_id" => $penjual_id,
-            'image' => $newImage['image']
-        ]);
+        try {
+            Warung::where('id', $id)->update([
+                "name" => $validated["name"],
+                "location" => $validated["location"],
+                "description" => $validated["description"],
+                "address" => $validated["address"],
+                "penjual_id" => $penjual_id,
+                'image' => $newImage['image']
+            ]);
 
-        return redirect('/penjual/warung')->with('success', 'Warung berhasil diperbarui!');
+            return redirect('/penjual/warung')->with('success', 'Warung berhasil diperbarui!');
+        } catch (\Exception $e) {
+            // Tangani error dan tampilkan pesan kesalahan pada halaman yang sama
+            return back()->withInput()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Periksa kembali data yang dimasukkan']);
+        }
     }
 
     /**

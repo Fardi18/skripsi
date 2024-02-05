@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Warung;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -18,11 +19,19 @@ class ProductController extends Controller
     {
         // warung id
         $penjual_id = Auth::id();
-        $warung_id = Warung::where("penjual_id", $penjual_id)->first()->id;
 
-        $products = Product::where("warung_id", $warung_id)->get();
-        return view("penjual.product.index", ["products" => $products]);
+        $warung = Warung::where("penjual_id", $penjual_id)->first();
+
+        if ($warung) {
+            $warung_id = $warung->id;
+            $products = Product::where("warung_id", $warung_id)->get();
+            return view("penjual.product.index", ["products" => $products]);
+        } else {
+            // Handle jika tidak ada warung yang cocok
+            return view("penjual.product.index", ["products" => []]);
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -57,17 +66,22 @@ class ProductController extends Controller
         $warung_id = Warung::where("penjual_id", $penjual_id)->first()->id;
 
         // menyimpan data product
-        Product::create([
-            'code' => $productCode,
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'price' => $validated['price'],
-            'stock' => $validated['stock'],
-            'image' => $saveImage['image'],
-            'warung_id' => $warung_id,
-        ]);
+        try {
+            Product::create([
+                'code' => $productCode,
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'price' => $validated['price'],
+                'stock' => $validated['stock'],
+                'image' => $saveImage['image'],
+                'warung_id' => $warung_id,
+            ]);
 
-        return redirect('/penjual/product')->with('success', 'Produk berhasil ditambakan!');
+            return redirect('/penjual/product')->with('success', 'Produk berhasil ditambakan!');
+        } catch (Exception $e) {
+            // Tangani error dan tampilkan pesan kesalahan pada halaman yang sama
+            return back()->withInput()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Periksa kembali data yang dimasukkan']);
+        }
     }
 
     /**
@@ -118,15 +132,20 @@ class ProductController extends Controller
         }
 
         // Update data di database
-        $product->update([
-            "name" => $validated["name"],
-            "description" => $validated["description"],
-            "price" => $validated["price"],
-            "stock" => $validated["stock"],
-            'image' => $newImage['image']
-        ]);
+        try {
+            $product->update([
+                "name" => $validated["name"],
+                "description" => $validated["description"],
+                "price" => $validated["price"],
+                "stock" => $validated["stock"],
+                'image' => $newImage['image']
+            ]);
 
-        return redirect('/penjual/product')->with('success', 'Produk berhasil diperbarui!');
+            return redirect('/penjual/product')->with('success', 'Produk berhasil diperbarui!');
+        } catch (Exception $e) {
+            // Tangani error dan tampilkan pesan kesalahan pada halaman yang sama
+            return back()->withInput()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui data. Periksa kembali data yang dimasukkan']);
+        }
     }
 
     /**

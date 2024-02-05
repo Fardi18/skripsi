@@ -20,7 +20,11 @@
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <h2>{{ $profile->name }}</h2>
-                        <h3>{{ $profile->warung->name }}</h3>
+                        @if ($profile->warung)
+                            <h3>{{ $profile->warung->name }}</h3>
+                        @else
+                            <h3>Belum Memiliki Warung</h3>
+                        @endif
                     </div>
                 </div>
 
@@ -58,8 +62,12 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Bengkel</div>
-                                    <div class="col-lg-9 col-md-8">{{ $profile->warung->name }}</div>
+                                    <div class="col-lg-3 col-md-4 label">Warung</div>
+                                    @if ($profile->warung)
+                                        <div class="col-lg-9 col-md-8">{{ $profile->warung->name }}</div>
+                                    @else
+                                        <div class="col-lg-9 col-md-8">Belum Memiliki Warung</div>
+                                    @endif
                                 </div>
 
                                 <div class="row">

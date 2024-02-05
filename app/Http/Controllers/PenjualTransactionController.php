@@ -12,17 +12,25 @@ class PenjualTransactionController extends Controller
 {
     public function index()
     {
-        // warung id
         $penjual_id = Auth::id();
-        $warung_id = Warung::where("penjual_id", $penjual_id)->first()->id;
 
-        // $transactions = Transaction::where('warung_id', $warung_id)->get();
-        $transactions = Transaction::with('user.province', 'user.regency')->where('warung_id', $warung_id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $warung = Warung::where("penjual_id", $penjual_id)->first();
 
-        return view("penjual.transaction.index", compact("transactions"));
+        if ($warung) {
+            $warung_id = $warung->id;
+            $transactions = Transaction::with('user.province', 'user.regency')
+                ->where('warung_id', $warung_id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return view("penjual.transaction.index", compact("transactions"));
+        } else {
+            // Handle jika tidak ada warung yang cocok
+            $transactions = []; // Atur variabel $transactions ke nilai default yang sesuai
+            return view("penjual.transaction.index", compact("transactions"));
+        }
     }
+
 
     public function show(Transaction $transaction)
     {
