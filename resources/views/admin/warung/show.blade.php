@@ -118,6 +118,36 @@
                     </div>
                 </div>
 
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Top Produk Sepanjang Masa</h5>
+
+                        @if ($allTimeTopProducts->isNotEmpty())
+                            <!-- Tabel untuk menampilkan top produk sepanjang masa -->
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Nama Produk</th>
+                                        <th scope="col">Total Terjual</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($allTimeTopProducts as $product)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $product['product_name'] }}</td>
+                                            <td>{{ $product['total_quantity_sold'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <!-- End Tabel untuk menampilkan top produk sepanjang masa -->
+                        @else
+                            <p>Tidak ada data penjualan produk sepanjang masa.</p>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </section>

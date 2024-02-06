@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="ps-3">
                                         <h6>{{ $total_transactions }}</h6>
-                                        <span class="text-muted small pt-2 ps-1">Transaksi</span>
+                                        <span class="text-muted small pt-2 ps-1">Transaksi Hari Ini</span>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="ps-3">
                                         <h6>Rp{{ number_format($total_pendapatan) }}</h6>
-                                        <span class="text-muted small pt-2 ps-1">Pendapatan</span>
+                                        <span class="text-muted small pt-2 ps-1">Pendapatan Hari Ini</span>
                                     </div>
                                 </div>
                             </div>

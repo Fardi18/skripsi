@@ -41,7 +41,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Buat Laporan Penjualan</th>
+                                        <th></th>
                                         <td>
                                             <button type="submit" class="btn btn-md btn-primary">Buat
                                                 Laporan</button>
@@ -53,8 +53,6 @@
                                 </tbody>
                             </table>
                         </form>
-
-
 
                         <!-- Table with stripped rows -->
                         <table class="table">

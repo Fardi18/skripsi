@@ -113,19 +113,51 @@ class LaporanController extends Controller
         return $pdf->download('laporan_penjualan.pdf');
     }
 
-    public function showTopProducts()
+    public function showTopProducts(Request $request)
     {
-        $topProducts = $this->getTopProducts(); // Panggil fungsi getTopProducts()
-        return view('penjual.laporan.topproduct', compact('topProducts'));
+        $allTimeTopProducts = $this->getAllTimeTopProducts(); // Fungsi untuk mendapatkan top produk sepanjang masa
+        $periodicTopProducts = $this->getTopProducts($request); // Fungsi untuk mendapatkan top produk dengan periode
+
+        return view('penjual.laporan.topproduct', compact('allTimeTopProducts', 'periodicTopProducts'));
     }
 
-    public function getTopProducts()
+    public function getAllTimeTopProducts()
     {
+        // Fungsi untuk mendapatkan top produk sepanjang masa
         $penjual_id = Auth::user()->id;
         $warung_id = Warung::where('penjual_id', $penjual_id)->pluck('id')->first();
 
+        $allTimeTopProducts = Transaction::where('warung_id', $warung_id)
+            ->where('transaction_status', 'lunas')
+            ->with(['detail_transactions.product'])
+            ->get()
+            ->flatMap(function ($transaction) {
+                return $transaction->detail_transactions;
+            })
+            ->groupBy('product_id')
+            ->map(function ($items) {
+                return [
+                    'product_id' => $items->first()->product_id,
+                    'product_name' => $items->first()->product->name,
+                    'total_quantity_sold' => $items->sum('qty'),
+                ];
+            })
+            ->sortByDesc('total_quantity_sold')
+            ->values();
+
+        return $allTimeTopProducts;
+    }
+
+    public function getTopProducts(Request $request)
+    {
+        $penjual_id = Auth::user()->id;
+        $warung_id = Warung::where('penjual_id', $penjual_id)->pluck('id')->first();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
         $topProducts = Transaction::where('warung_id', $warung_id)
             ->where('transaction_status', 'lunas')
+            ->whereBetween('created_at', [$startDate, $endDate]) // Filter berdasarkan rentang waktu
             ->with(['detail_transactions.product'])
             ->get()
             ->flatMap(function ($transaction) {

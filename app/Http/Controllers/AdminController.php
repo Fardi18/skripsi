@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Warung;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -56,11 +57,7 @@ class AdminController extends Controller
         return view("admin.warung.index", compact("warungs"));
     }
 
-    public function showWarung($id)
-    {
-        $warung = Warung::with(['penjual', 'penjual.province', 'penjual.regency', 'products'])->findOrFail($id);
-        return view("admin.warung.show", compact("warung"));
-    }
+
 
     public function showProduct(Request $request, $id)
     {
@@ -131,5 +128,32 @@ class AdminController extends Controller
         $details = $transaction->detail_transactions()->with('product')->get();
         // dd($details);
         return view("admin.transaction.transactiondetail", compact("transaction", "details"));
+    }
+
+    // LAPORAN
+    public function showWarung(Request $request, $id)
+    {
+        $warung = Warung::with(['penjual', 'penjual.province', 'penjual.regency', 'products'])->findOrFail($id);
+
+        // all time
+        $allTimeTopProducts = Transaction::where('warung_id', $warung->id)
+            ->where('transaction_status', 'lunas')
+            ->with(['detail_transactions.product'])
+            ->get()
+            ->flatMap(function ($transaction) {
+                return $transaction->detail_transactions;
+            })
+            ->groupBy('product_id')
+            ->map(function ($items) {
+                return [
+                    'product_id' => $items->first()->product_id,
+                    'product_name' => $items->first()->product->name,
+                    'total_quantity_sold' => $items->sum('qty'),
+                ];
+            })
+            ->sortByDesc('total_quantity_sold')
+            ->values();
+
+        return view("admin.warung.show", compact("warung", 'allTimeTopProducts'));
     }
 }

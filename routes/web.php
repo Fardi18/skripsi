@@ -137,10 +137,12 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/pembeli/{id}', [AdminController::class, 'showPembeli']);
     // WARUNG
     Route::get('/warung', [AdminController::class, 'warung']);
-    Route::get('/warung/{id}', [AdminController::class, 'showWarung']);
+    Route::get('/warung/{id}', [AdminController::class, 'showWarung'])->name('admin.show');
     Route::get('/warung/product/{id}', [AdminController::class, 'showProduct']);
     Route::get('/warung/{id}/edit', [AdminController::class, 'editWarung']);
     Route::put('/warung/{id}', [AdminController::class, 'updateWarung']);
+    Route::get('/admin/warung/{id}/top-products-by-period', [AdminController::class, 'showTopProductsByPeriod'])
+        ->name('admin.show.by.period');
     // TRANSACTION
     Route::get('/transaction', [AdminController::class, 'transaction']);
     Route::get('/transaction/{transaction}', [AdminController::class, 'showTransaction'])->name("detail.transaction");
@@ -185,7 +187,7 @@ Route::prefix('penjual')->middleware('auth:penjual')->group(function () {
     Route::get('/laporan', [LaporanController::class, 'index']);
     Route::get('/laporan/get-data', [LaporanController::class, 'getData'])->name('laporan.getData');
     Route::get('/laporan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan.exportPdf');
-    Route::get('/laporan/topproduct', [LaporanController::class, 'showTopProducts']);
+    Route::get('/laporan/topproduct', [LaporanController::class, 'showTopProducts'])->name('laporan.showTopProducts');
     Route::get('/laporan/topproduct/data', [LaporanController::class, 'getTopProducts']);
 });
 
