@@ -28,11 +28,10 @@
                                     </div>
                                     <div class="ps-3">
                                         <h6>{{ $total_products }}</h6>
-                                        <span class="text-muted small pt-2 ps-1">Product</span>
+                                        <span class="text-muted small pt-2 ps-1">Produk</span>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div><!-- End Sales Card -->
 
@@ -40,7 +39,7 @@
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card porto-card">
                             <div class="card-body">
-                                <h5 class="card-title">Transaksi</h5>
+                                <h5 class="card-title">Jumlah Transaksi Hari Ini</h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                                         style="color: #576cbf;  background: #dde8ff;">
@@ -48,7 +47,7 @@
                                     </div>
                                     <div class="ps-3">
                                         <h6>{{ $total_transactions }}</h6>
-                                        <span class="text-muted small pt-2 ps-1">Transaksi Hari Ini</span>
+                                        <span class="text-muted small pt-2 ps-1">Jumlah transaksi Hari Ini</span>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +58,7 @@
                     <div class="col-xxl-4 col-xl-4">
                         <div class="card info-card blogcategory-card">
                             <div class="card-body">
-                                <h5 class="card-title">Pendapatan</h5>
+                                <h5 class="card-title">Pendapatan Hari Ini</h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                                         style="color: #6C22A6;  background: #F3CCF3;">
@@ -73,6 +72,24 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card portocategory-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Produk Terjual Hari Ini</h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                                        style="color: #212371;  background: #9bdae9;">
+                                        <i class="bi bi-cart-check"></i></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ $total_produk_terbeli }}</h6>
+                                        <span class="text-muted small pt-2 ps-1">Produk Terjual Hari Ini</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End Sales Card -->
                 </div>
             </div>
         </div>

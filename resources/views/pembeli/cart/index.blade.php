@@ -42,6 +42,9 @@
                         @php
                             $total_price = 0;
                         @endphp
+                        @php
+                            $warung_id;
+                        @endphp
                         <table class="table text-nowrap">
                             <thead class="bg-light">
                                 <tr>
@@ -56,6 +59,9 @@
                                 @foreach ($carts as $cart)
                                     @php
                                         $total_price += $cart->product->price * $cart->qty;
+                                    @endphp
+                                    @php
+                                        $warung_id = $cart->warung->id;
                                     @endphp
                                     <tr class="align-items-center">
                                         <th class="ps-0 py-3 border-light">
@@ -104,9 +110,15 @@
                     <div class="bg-light py-3">
                         <div class="row align-items-center text-center">
                             <div class="col-md-6 mb-3 mb-md-0 text-md-start">
-                                <a class="btn btn-link p-0 text-dark btn-sm" href="/warung">
-                                    <i class="fas fa-long-arrow-alt-left me-2"> </i>Pilih barang lainnya
-                                </a>
+                                @if ($carts->isEmpty())
+                                    <a class="btn btn-link p-0 text-dark btn-sm" href="/warung">
+                                        <i class="fas fa-long-arrow-alt-left me-2"> </i>Pilih barang lainnya
+                                    </a>
+                                @else
+                                    <a class="btn btn-link p-0 text-dark btn-sm" href="/warung/{{ $warung_id }}">
+                                        <i class="fas fa-long-arrow-alt-left me-2"> </i>Pilih barang lainnya
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
