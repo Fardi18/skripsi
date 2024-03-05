@@ -86,5 +86,11 @@
                 </li>
             </ul>
         </li><!-- End Components Nav -->
+        <li class="nav-item">
+            <a class="nav-link " href="/penjual/pencairan">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Pencairan</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
     </ul>
 </aside><!-- End Sidebar-->

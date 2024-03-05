@@ -65,6 +65,10 @@
                                     <th>Status Pengiriman</th>
                                     <td>{{ $transaction->shipping_status }}</td>
                                 </tr>
+                                <tr>
+                                    <th>Nama Pengirim</th>
+                                    <td>{{ $transaction->nama_pengirim }}</td>
+                                </tr>
                             </tbody>
                         </table>
                         <!-- Table with stripped rows -->

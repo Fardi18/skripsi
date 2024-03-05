@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rekening extends Model
+class Pencairan extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'bank_name',
-        'name',
-        'bank_number',
         'penjual_id',
+        'warung_id',
+        'rekening_id',
+        'status',
+        'image',
+        'total'
     ];
 
     public function penjual()
@@ -21,8 +23,13 @@ class Rekening extends Model
         return $this->belongsTo(Penjual::class);
     }
 
-    public function pencairans()
+    public function warung()
     {
-        return $this->hasMany(Pencairan::class);
+        return $this->belongsTo(Warung::class);
+    }
+
+    public function rekening()
+    {
+        return $this->belongsTo(Rekening::class);
     }
 }

@@ -31,38 +31,6 @@ class WarungController extends Controller
         return view("penjual.warung.add");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-    //     // validasi form
-    //     $validated = $request->validate([
-    //         "name" => "required|string",
-    //         "location" => "string",
-    //         "description" => "required|string|max:65535",
-    //         "address" => "required|string",
-    //         "image" => "required|mimes:jpg,jpeg,png|max:5120",
-    //     ]);
-
-    //     // menyimpan file image ke dalam storage
-    //     $saveImage['image'] = Storage::putFile('public/image', $request->file('image'));
-
-    //     // mengambil id penjual
-    //     $penjual_id = Auth::id();
-
-    //     // menyimpan data warung
-    //     Warung::create([
-    //         'name' => $validated['name'],
-    //         'location' => $validated['location'],
-    //         'description' => $validated['description'],
-    //         'address' => $validated['address'],
-    //         'image' => $saveImage['image'],
-    //         'penjual_id' => $penjual_id,
-    //     ]);
-
-    //     return redirect('/penjual/warung')->with('success', 'Warung berhasil ditambahkan!');
-    // }
     public function store(Request $request)
     {
         // validasi form

@@ -37,4 +37,9 @@ class Warung extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function pencairans()
+    {
+        return $this->hasMany(Pencairan::class);
+    }
 }

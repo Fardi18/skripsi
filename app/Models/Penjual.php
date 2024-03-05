@@ -66,4 +66,9 @@ class Penjual extends Model
     {
         return $this->belongsTo(Regency::class, 'regencies_id');
     }
+
+    public function pencairans()
+    {
+        return $this->hasMany(Pencairan::class);
+    }
 }

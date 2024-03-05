@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailTransaction;
+use App\Models\Pencairan;
 use App\Models\Penjual;
 use App\Models\Product;
 use App\Models\Transaction;
@@ -102,5 +103,20 @@ class PenjualController extends Controller
             // Notifikasi session jika gagal
             return redirect()->back()->with('error', 'Gagal mengubah profile. Silakan coba lagi.');
         }
+    }
+
+    public function pencairanPenjual()
+    {
+        $penjual_id = Auth::id();
+        $warung = Warung::where("penjual_id", $penjual_id)->first();
+        $pencairans = Pencairan::with('penjual', 'warung', 'rekening')->where('warung_id', $warung->id)->get();
+
+        return view('penjual.pencairan.index', compact('pencairans'));
+    }
+
+    public function detailPencairanPenjual(string $id)
+    {
+        $pencairan = Pencairan::with('penjual', 'warung', 'rekening')->findOrFail($id);
+        return view('admin.pencairan.show', compact('pencairan'));
     }
 }

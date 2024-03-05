@@ -7,6 +7,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\IndoRegionController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PembeliController;
+use App\Http\Controllers\PencairanController;
 use App\Http\Controllers\PenjualController;
 use App\Http\Controllers\PenjualTransactionController;
 use App\Http\Controllers\ProductController;
@@ -146,6 +147,18 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     // TRANSACTION
     Route::get('/transaction', [AdminController::class, 'transaction']);
     Route::get('/transaction/{transaction}', [AdminController::class, 'showTransaction'])->name("detail.transaction");
+    // LAPORAN
+    Route::get('/laporan', [AdminController::class, 'laporanAdmin']);
+    Route::get('/laporan/get-data-admin', [AdminController::class, 'getLaporanAdmin'])->name('laporan.getLaporanAdmin');
+    Route::get('/laporan/topproduct', [AdminController::class, 'showTopProductsAdmin'])->name('laporan.showTopProductsAdmin');
+    Route::get('/laporan/topproduct/data', [AdminController::class, 'getTopProductsAdmin'])->name('laporan.getTopProductsAdmin');
+    // PENCAIRAN
+    Route::get('/pencairan', [PencairanController::class, 'index']);
+    Route::get('/pencairan/{id}/add', [PencairanController::class, 'create']);
+    Route::post('/pencairan', [PencairanController::class, 'store']);
+    Route::get('/pencairan/{id}/edit', [PencairanController::class, 'edit']);
+    Route::get('/pencairan/{id}', [PencairanController::class, 'show']);
+    Route::put('/pencairan/{id}', [PencairanController::class, 'update'])->name("update-pencairan");
 });
 
 // PENJUAL
@@ -189,6 +202,9 @@ Route::prefix('penjual')->middleware('auth:penjual')->group(function () {
     Route::get('/laporan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan.exportPdf');
     Route::get('/laporan/topproduct', [LaporanController::class, 'showTopProducts'])->name('laporan.showTopProducts');
     Route::get('/laporan/topproduct/data', [LaporanController::class, 'getTopProducts']);
+    // PENCAIRAN
+    Route::get('/pencairan', [PenjualController::class, 'pencairanPenjual']);
+    Route::get('/pencairan/{id}', [PenjualController::class, 'detailPencairanPenjual']);
 });
 
 

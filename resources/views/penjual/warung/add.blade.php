@@ -18,10 +18,6 @@
     <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
 
-    <!-- {{-- cdn leaflet search --}} -->
-    <link rel="stylesheet" href="{{ asset('css/leaflet-search.css') }}">
-    <script src="{{ asset('js/leaflet-search.js') }}"></script>
-
     <!-- cdn leafle current location -->
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.css" rel="stylesheet">

@@ -1,14 +1,14 @@
-@extends('penjual.warunglayouts.app')
+@extends('admin.layouts.app')
 
-@section('title', 'Laporan Penjualan')
+@section('title', 'Laporan Penjualan Warung')
 
 @section('content')
     <div class="pagetitle">
-        <h1>Laporan Penjualan</h1>
+        <h1>Laporan Penjualan Warung</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/penjual/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="/penjual/laporan">Laporan Penjualan</a></li>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/laporan">Laporan Penjualan</a></li>
                 <li class="breadcrumb-item active">Laporan Penjualan</li>
             </ol>
         </nav>
@@ -20,10 +20,24 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Data Laporan Penjualan</h5>
-                        <form action="{{ route('laporan.getData') }}" method="get">
+                        <form action="{{ route('laporan.getLaporanAdmin') }}" method="get">
                             @csrf
                             <table class="table table-borderless">
                                 <tbody>
+                                    <tr>
+                                        <th>
+                                            <label for="warung_id" class="form-label">Pilih Warung</label>
+                                        </th>
+                                        <td>
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="warung_id">
+                                                <option selected>-- Pilih Warung --</option>
+                                                @foreach ($warungs as $warung)
+                                                    <option value="{{ $warung->id }}">{{ $warung->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <th>
                                             <label for="start_date" class="form-label">Tanggal Awal</label>
@@ -45,9 +59,6 @@
                                         <td>
                                             <button type="submit" class="btn btn-md btn-primary">Buat
                                                 Laporan</button>
-                                            <button id="downloadPdfBtn" class="btn btn-md btn-success" disabled>Unduh
-                                                Laporan
-                                                PDF</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -63,7 +74,7 @@
                                     <th scope="col">Total</th>
                                 </tr>
                             </thead>
-                            <tbody class="bodyLaporan">
+                            <tbody class="bodyLaporanAdmin">
 
                             </tbody>
                             <tfoot id="footerTable" style="display: none;">
@@ -86,47 +97,26 @@
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
     <script>
         $('form').submit(function(event) {
             event.preventDefault();
 
+            // Periksa apakah warung_id sudah dipilih
+            var selectedWarung = $('select[name="warung_id"]').val();
+            if (!selectedWarung || selectedWarung === '-- Pilih Warung --') {
+                alert('Harap pilih warung terlebih dahulu.');
+                return; // Berhenti jika warung_id belum dipilih
+            }
+
             $.ajax({
-                url: '{{ route('laporan.getData') }}',
+                url: '{{ route('laporan.getLaporanAdmin') }}',
                 type: 'GET',
                 data: $('form').serialize(),
-                // success: function(response) {
-                //     // Hapus data lama dari tabel
-                //     $('table tbody.bodyLaporan').empty();
-
-                //     // Iterasi melalui data dan tambahkan ke tabel
-                //     if (response.length > 0) {
-                //         $.each(response, function(index, data) {
-                //             var row = '<tr>' +
-                //                 '<td>' + (index + 1) + '</td>' +
-                //                 '<td>' + data.date + '</td>' +
-                //                 '<td>' + 'Rp' + data.total + '</td>' +
-                //                 '</tr>';
-
-                //             $('table tbody.bodyLaporan').append(row);
-                //         });
-                //         // Aktifkan tombol unduh PDF jika ada data
-                //         $('#downloadPdfBtn').prop('disabled', false);
-                //     } else {
-                //         // Tampilkan pesan jika tidak ada data
-                //         var emptyRow =
-                //             '<tr><td colspan="3" class="text-center">Tidak ada data penjualan dalam rentang tanggal yang diminta</td></tr>';
-                //         $('table tbody.bodyLaporan').append(emptyRow);
-
-                //         // Nonaktifkan tombol unduh PDF jika tidak ada data
-                //         $('#downloadPdfBtn').prop('disabled', true);
-                //     }
-                // },
                 success: function(response) {
                     // Hapus data lama dari tabel
-                    $('table tbody.bodyLaporan').empty();
+                    $('table tbody.bodyLaporanAdmin').empty();
 
-                    var totalPendapatan = 0; // variabel untuk menyimpan total pendapatan
+                    var totalPendapatan = 0; // Inisialisasi total pendapatan
 
                     // Iterasi melalui data dan tambahkan ke tabel
                     if (response.length > 0) {
@@ -137,22 +127,17 @@
                                 '<td>' + 'Rp' + data.total + '</td>' +
                                 '</tr>';
 
-                            totalPendapatan += parseInt(data
-                                .total); // tambahkan total penjualan ke totalPendapatan
+                            $('table tbody.bodyLaporanAdmin').append(row);
 
-                            $('table tbody.bodyLaporan').append(row);
+                            // Tambahkan total pendapatan dari setiap data
+                            totalPendapatan += data.total;
                         });
-                        // Aktifkan tombol unduh PDF jika ada data
-                        $('#downloadPdfBtn').prop('disabled', false);
                         $('#footerTable').show(); // tampilkan footer tabel
                     } else {
                         // Tampilkan pesan jika tidak ada data
                         var emptyRow =
                             '<tr><td colspan="3" class="text-center">Tidak ada data penjualan dalam rentang tanggal yang diminta</td></tr>';
-                        $('table tbody.bodyLaporan').append(emptyRow);
-
-                        // Nonaktifkan tombol unduh PDF jika tidak ada data
-                        $('#downloadPdfBtn').prop('disabled', true);
+                        $('table tbody.bodyLaporanAdmin').append(emptyRow);
                         $('#footerTable').hide(); // sembunyikan footer tabel
                     }
 
@@ -170,13 +155,6 @@
                     alert(errorMessage);
                 }
             });
-        });
-    </script>
-
-    <script>
-        // Fungsi untuk menangani klik tombol unduh PDF
-        $('#downloadPdfBtn').click(function() {
-            window.location.href = '{{ route('laporan.exportPdf') }}?' + $('form').serialize();
         });
     </script>
 @endpush

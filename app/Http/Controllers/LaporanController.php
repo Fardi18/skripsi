@@ -26,38 +26,43 @@ class LaporanController extends Controller
     //     $warung_id = Warung::where('penjual_id', $penjual_id)->pluck('id')->first();
 
     //     // Validasi tanggal
-    //     if ($startDate > $endDate) {
+    //     if (
+    //         $startDate > $endDate
+    //     ) {
     //         return response()->json(['error' => 'Tanggal awal tidak boleh lebih besar dari tanggal akhir'], 400);
     //     }
 
+    //     // Generate a list of all dates within the specified range
+    //     $dateRange = Carbon::parse($startDate)->toPeriod($endDate)->toArray();
+
+    //     // Get transactions within the specified range
     //     $laporanPenjualan = Transaction::whereBetween('created_at', [$startDate, $endDate])
     //         ->whereIn('warung_id', [$warung_id])
     //         ->where('transaction_status', 'lunas')
     //         ->with('warung')
     //         ->get();
 
-    //     if ($laporanPenjualan->isEmpty()) {
-    //         return response()->json(['message' => 'Tidak ada data penjualan dalam rentang tanggal yang diminta']);
-    //     }
-
     //     // Group transactions by formatted date
     //     $groupedTransactions = $laporanPenjualan->groupBy(function ($transaction) {
     //         return Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY');
     //     });
 
-    //     // Calculate total for each date
-    //     $result = $groupedTransactions->map(function ($transactions, $date) {
+    //     // Merge the generated date range with the actual transactions
+    //     $mergedData = Collection::make($dateRange)->map(function ($date) use ($groupedTransactions) {
+    //         $formattedDate = Carbon::parse($date)->isoFormat('D MMMM YYYY');
+    //         $transactions = $groupedTransactions[$formattedDate] ?? collect();
+
     //         $total = $transactions->sum('total') - $transactions->sum('pajak');
+
     //         return [
-    //             'date' => $date,
+    //             'date' => $formattedDate,
     //             'total' => $total,
-    //             'transactions' => $transactions, // tambahkan transactions ke dalam array
+    //             'transactions' => $transactions,
     //         ];
     //     });
 
-    //     return response()->json($result->values());
+    //     return response()->json($mergedData->values());
     // }
-
     public function getData(Request $request)
     {
         $startDate = $request->input('start_date');
@@ -66,9 +71,7 @@ class LaporanController extends Controller
         $warung_id = Warung::where('penjual_id', $penjual_id)->pluck('id')->first();
 
         // Validasi tanggal
-        if (
-            $startDate > $endDate
-        ) {
+        if ($startDate > $endDate) {
             return response()->json(['error' => 'Tanggal awal tidak boleh lebih besar dari tanggal akhir'], 400);
         }
 
@@ -87,22 +90,29 @@ class LaporanController extends Controller
             return Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY');
         });
 
-        // Merge the generated date range with the actual transactions
-        $mergedData = Collection::make($dateRange)->map(function ($date) use ($groupedTransactions) {
+        // Initialize an empty array to store merged data
+        $mergedData = [];
+
+        // Iterate through the date range
+        foreach ($dateRange as $date) {
             $formattedDate = Carbon::parse($date)->isoFormat('D MMMM YYYY');
             $transactions = $groupedTransactions[$formattedDate] ?? collect();
 
-            $total = $transactions->sum('total') - $transactions->sum('pajak');
+            // Check if transactions exist for the date
+            if ($transactions->isNotEmpty()) {
+                $total = $transactions->sum('total') - $transactions->sum('pajak');
 
-            return [
-                'date' => $formattedDate,
-                'total' => $total,
-                'transactions' => $transactions,
-            ];
-        });
+                $mergedData[] = [
+                    'date' => $formattedDate,
+                    'total' => $total,
+                    'transactions' => $transactions,
+                ];
+            }
+        }
 
-        return response()->json($mergedData->values());
+        return response()->json($mergedData);
     }
+
 
     public function exportPdf(Request $request)
     {

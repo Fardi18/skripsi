@@ -18,8 +18,8 @@
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
 
     <!-- {{-- cdn leaflet search --}} -->
-    <link rel="stylesheet" href="{{ asset('css/leaflet-search.css') }}">
-    <script src="{{ asset('js/leaflet-search.js') }}"></script>
+    {{-- <link rel="stylesheet" href="{{ asset('css/leaflet-search.css') }}">
+    <script src="{{ asset('js/leaflet-search.js') }}"></script> --}}
 
     <!-- cdn leafle current location -->
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js"></script>
@@ -148,7 +148,7 @@
             // dari spot yang dipilih
             zoomControl: false,
             center: [-6.294875476718384, 106.58278553898865],
-            zoom: 15,
+            zoom: 18,
             layers: [streets]
         });
 

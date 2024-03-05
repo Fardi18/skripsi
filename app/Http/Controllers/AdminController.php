@@ -7,7 +7,9 @@ use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Warung;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -57,7 +59,11 @@ class AdminController extends Controller
         return view("admin.warung.index", compact("warungs"));
     }
 
-
+    public function showWarung(Request $request, $id)
+    {
+        $warung = Warung::with(['penjual', 'penjual.province', 'penjual.regency', 'products'])->findOrFail($id);
+        return view("admin.warung.show", compact("warung"));
+    }
 
     public function showProduct(Request $request, $id)
     {
@@ -131,29 +137,156 @@ class AdminController extends Controller
     }
 
     // LAPORAN
-    public function showWarung(Request $request, $id)
+    public function laporanAdmin()
     {
-        $warung = Warung::with(['penjual', 'penjual.province', 'penjual.regency', 'products'])->findOrFail($id);
+        $warungs = Warung::all();
+        return view('admin.laporan.index', compact('warungs'));
+    }
 
-        // all time
-        $allTimeTopProducts = Transaction::where('warung_id', $warung->id)
+    // public function getLaporanAdmin(Request $request)
+    // {
+    //     $startDate = $request->input('start_date');
+    //     $endDate = $request->input('end_date');
+    //     $warung_id = $request->input('warung_id');
+
+    //     // Validasi tanggal
+    //     if ($startDate > $endDate) {
+    //         return response()->json(['error' => 'Tanggal awal tidak boleh lebih besar dari tanggal akhir'], 400);
+    //     }
+
+    //     // Get transactions within the specified range
+    //     $laporanPenjualan = Transaction::whereBetween('created_at', [$startDate, $endDate])
+    //         ->where('warung_id', $warung_id)
+    //         ->where('transaction_status', 'lunas')
+    //         ->get();
+
+    //     // Create an empty array to store dates with transactions
+    //     $datesWithTransactions = [];
+
+    //     // Iterate through transactions to find dates with transactions
+    //     foreach ($laporanPenjualan as $transaction) {
+    //         $transactionDate = Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY');
+    //         $datesWithTransactions[$transactionDate] = true;
+    //     }
+
+    //     // Generate a list of all dates within the specified range
+    //     $dateRange = Carbon::parse($startDate)->toPeriod($endDate)->toArray();
+
+    //     // Filter out dates without transactions from the date range
+    //     $dateRangeWithTransactions = array_filter($dateRange, function ($date) use ($datesWithTransactions) {
+    //         return isset($datesWithTransactions[Carbon::parse($date)->isoFormat('D MMMM YYYY')]);
+    //     });
+
+    //     // Group transactions by formatted date
+    //     $groupedTransactions = $laporanPenjualan->groupBy(function ($transaction) {
+    //         return Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY');
+    //     });
+
+    //     // Merge the generated date range with the actual transactions
+    //     $mergedData = Collection::make($dateRangeWithTransactions)->map(function ($date) use ($groupedTransactions) {
+    //         $formattedDate = Carbon::parse($date)->isoFormat('D MMMM YYYY');
+    //         $transactions = $groupedTransactions[$formattedDate] ?? collect();
+
+    //         $total = $transactions->sum('total') - $transactions->sum('pajak');
+
+    //         return [
+    //             'date' => $formattedDate,
+    //             'total' => $total,
+    //             'transactions' => $transactions,
+    //         ];
+    //     });
+
+    //     return response()->json($mergedData->values());
+    // }
+    public function getLaporanAdmin(Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $warung_id = $request->input('warung_id');
+
+        // Validasi tanggal
+        if ($startDate > $endDate) {
+            return response()->json(['error' => 'Tanggal awal tidak boleh lebih besar dari tanggal akhir'], 400);
+        }
+
+        // Get transactions within the specified range
+        $laporanPenjualan = Transaction::whereBetween('created_at', [$startDate, $endDate])
+            ->where('warung_id', $warung_id)
             ->where('transaction_status', 'lunas')
-            ->with(['detail_transactions.product'])
-            ->get()
-            ->flatMap(function ($transaction) {
-                return $transaction->detail_transactions;
-            })
-            ->groupBy('product_id')
-            ->map(function ($items) {
-                return [
-                    'product_id' => $items->first()->product_id,
-                    'product_name' => $items->first()->product->name,
-                    'total_quantity_sold' => $items->sum('qty'),
-                ];
-            })
-            ->sortByDesc('total_quantity_sold')
-            ->values();
+            ->get();
 
-        return view("admin.warung.show", compact("warung", 'allTimeTopProducts'));
+        // Group transactions by formatted date
+        $groupedTransactions = $laporanPenjualan->groupBy(function ($transaction) {
+            return Carbon::parse($transaction->created_at)->isoFormat('D MMMM YYYY');
+        });
+
+        // Merge the generated date range with the actual transactions
+        $mergedData = $groupedTransactions->map(function ($transactions, $date) {
+            $total = $transactions->sum('total') - $transactions->sum('pajak');
+
+            return [
+                'date' => $date,
+                'total' => $total,
+                'transactions' => $transactions,
+            ];
+        });
+
+        return response()->json($mergedData->values());
+    }
+
+    public function showTopProductsAdmin(Request $request)
+    {
+        $warungs = Warung::all();
+        $getTopProductsAdmin = $this->getTopProductsAdmin($request); // Fungsi untuk mendapatkan top produk dengan periode
+
+        return view('admin.laporan.topproduct', compact('getTopProductsAdmin', 'warungs'));
+    }
+
+    public function getTopProductsAdmin(Request $request)
+    {
+        $warung_id = $request->input('warung_id');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Validasi tanggal
+        if ($startDate > $endDate) {
+            return response()->json(['error' => 'Tanggal awal tidak boleh lebih besar dari tanggal akhir'], 400);
+        }
+
+        // Get transactions within the specified range
+        $transactions = Transaction::where('warung_id', $warung_id)
+            ->where('transaction_status', 'lunas')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->with(['detail_transactions.product'])
+            ->get();
+
+        // Create an empty array to store products with quantity sold
+        $productsWithQuantity = [];
+
+        // Iterate through transactions to find products with quantity sold
+        foreach ($transactions as $transaction) {
+            foreach ($transaction->detail_transactions as $detailTransaction) {
+                $product_id = $detailTransaction->product_id;
+                $quantity_sold = $detailTransaction->qty;
+
+                if (!isset($productsWithQuantity[$product_id])) {
+                    $productsWithQuantity[$product_id] = [
+                        'product_id' => $product_id,
+                        'product_name' => $detailTransaction->product->name,
+                        'total_quantity_sold' => 0,
+                    ];
+                }
+
+                $productsWithQuantity[$product_id]['total_quantity_sold'] += $quantity_sold;
+            }
+        }
+
+        // Sort products by total quantity sold
+        usort($productsWithQuantity, function ($a, $b) {
+            return $b['total_quantity_sold'] - $a['total_quantity_sold'];
+        });
+
+        // Return the top products
+        return response()->json(array_slice($productsWithQuantity, 0, 10));
     }
 }

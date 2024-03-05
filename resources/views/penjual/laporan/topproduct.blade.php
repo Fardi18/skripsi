@@ -142,7 +142,7 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Top Produk Sepanjang Masa</h5>
 
@@ -171,7 +171,7 @@
                             <p>Tidak ada data penjualan produk sepanjang masa.</p>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="card">
                     <div class="card-body">

@@ -37,5 +37,28 @@
                 <i class="bi bi-menu-button-wide"></i><span>Transaksi</span>
             </a>
         </li><!-- End Components Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Laporan</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/admin/laporan">
+                        <i class="bi bi-circle-fill"></i><span>Laporan Penjualan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/laporan/topproduct">
+                        <i class="bi bi-circle-fill"></i><span>Top Produk</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/pencairan">
+                <i class="bi bi-menu-button-wide"></i><span>Pencairan</span>
+            </a>
+        </li><!-- End Components Nav -->
     </ul>
 </aside><!-- End Sidebar-->
